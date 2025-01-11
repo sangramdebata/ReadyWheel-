@@ -1,0 +1,452 @@
+@import url("https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap");
+
+:root { /* CSS Variables for Global Styling */
+  --primary-color: #8a79f0;/* Primary color (used throughout the site for buttons, elements, etc.) */
+  --primary-color-dark: #2e2a40;/* Darker shade of the primary color (for backgrounds, etc.) */
+  --text-dark: #221e36;/* Dark text color (used for most body text) */
+  --text-light: #767268;/* Lighter text color (used for less important text, such as subtitles) */
+  --extra-light: #f1f2ff;/* Very light color (used for backgrounds or subtle accents) */
+  --white: #ffffff;
+  --max-width: 1200px;/* Maximum width for the main content (used for layout control) */
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+.section__container {
+  max-width: var(--max-width);
+  margin: auto;
+  padding: 5rem 1rem;
+}
+
+.section__header {
+  margin-bottom: 1rem;
+  font-size: 2.5rem;
+  font-weight: 600;
+  color: var(--text-dark);
+  line-height: 3.25rem;
+  text-align: center;
+}
+
+.section__description {
+  color: var(--text-light);
+  text-align: center;
+  line-height: 1.5rem;
+}
+
+/* Button Styling */
+.btn {
+  padding: 0.75rem 1.5rem;/* Padding inside the button (top-bottom, left-right) */
+  outline: none;
+  border: none;
+  font-size: 1rem;
+  color: var(--white);
+  background-color: var(--primary-color);
+  border-radius: 0.5rem;
+  transition: 0.3s;/* Smooth transition effect for hover or focus states */
+  cursor: pointer;/* Change cursor to pointer on hover */
+}
+
+.btn:hover {
+  background-color: var(--primary-color-dark);
+}
+/* Logo Styling */
+.logo {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.logo img {
+  max-width: 35px;
+}
+/* Logo Text Styling */
+.logo span {
+  font-size: 1.25rem;/* Set the font size for the logo text */
+  font-weight: 700;
+  font-style: italic;
+  color: var(--white);
+  white-space: nowrap;/* Prevent the text from wrapping to a new line */
+}
+
+img {
+  display: flex;
+  width: 100%;
+}
+
+a {
+  text-decoration: none;
+  transition: 0.3s;
+}
+
+ul {
+  list-style: none;
+}
+
+html,
+body {
+  scroll-behavior: smooth;/* Enable smooth scrolling when navigating to anchor links */
+}
+
+body {
+  font-family: "Roboto", sans-serif;
+}
+
+header {
+  background: linear-gradient(
+    to bottom,
+    rgba(67, 51, 237, 0.4),
+    rgba(165, 150, 247, 0.1)
+  );
+}
+/* Navigation Bar Styling */
+nav {
+  position: fixed;
+  isolation: isolate;
+  width: 100%;
+  z-index: 9;/* Set the z-index to ensure the navbar stays on top of other content */
+}
+/* Navigation Header Styling */
+.nav__header {
+  padding: 0.75rem 1rem;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background-color: var(--primary-color-dark);
+}
+
+.nav__logo .logo-dark {
+  display: none;
+}
+
+.nav__menu__btn {
+  font-size: 1.5rem;/* Use Flexbox for a responsive, flexible layout */
+  color: var(--white);
+  cursor: pointer;
+}
+
+.nav__links {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  gap: 2rem;
+  padding: 2rem;
+  background-color: var(--primary-color-dark);
+  transition: transform 0.5s;/* Apply a smooth transition effect for transforming the link */
+  z-index: -1;/* Set a z-index of -1 to layer the nav links beneath other elements */
+}
+
+.nav__links.open {
+  transform: translateY(100%);
+}
+
+.nav__links a {
+  color: var(--white);
+}
+
+.nav__links a:hover {
+  color: var(--primary-color);
+}
+
+.nav__btns {
+  display: none;
+}
+
+.header__container {
+  padding-top: 5rem;
+  display: grid;
+}
+
+.header__image {
+  position: relative;
+  isolation: isolate;
+  overflow: hidden;
+}
+
+.header__image::before {
+  position: absolute;
+  content: "";/* Empty content for the element (used for styling purposes) */
+  height: 100%;
+  width: 100%;
+  top: 0;
+  left: 5rem;
+  background-color: var(--primary-color);
+  opacity: 0.2;/* Make the element slightly transparent with low opacity */
+  border-top-left-radius: 2rem;
+  z-index: -1;
+}
+
+.header__content {
+  padding-block: 2rem 5rem;
+  padding-inline: 1rem;
+}
+
+.header__content h2 {
+  width: fit-content;/* Set the width to fit the content inside the element */
+  margin-inline: auto;
+  margin-bottom: 1rem;
+  padding: 0.5rem 1.5rem;
+  font-size: 1rem;
+  font-weight: 500;
+  color: var(--primary-color);
+  background-color: var(--white);
+  border-radius: 5rem;
+  box-shadow: 5px 5px 10px rgba(0, 0, 0, 0.05);/* Add a soft, subtle shadow effect around the element for depth */
+}
+
+.header__content h1 {
+  margin-bottom: 2rem;
+  font-size: 3.5rem;
+  font-weight: 800;
+  color: var(--text-dark);
+  text-align: center;
+}
+.header__form form {
+  max-width: 900px;
+  margin-inline: auto;
+  padding: 1rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 1rem;
+  background-color: var(--white);
+  box-shadow: 0px 0px 20px rgba(0, 0, 0, 0.1);
+  border-radius: 1rem;
+}
+
+.header__form .input__group {
+  flex: 1 0 170px;
+  display: grid;
+  gap: 10px;
+}
+
+.header__form label {
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: var(--text-dark);
+}
+
+.header__form input {
+  width: 100%;
+  outline: none;
+  border: none;
+  font-size: 1rem;
+  color: var(--text-light);
+}
+
+.header__form input::placeholder {
+  color: var(--text-light);
+}
+
+.header__form .btn {
+  padding: 15px 17px;
+}
+
+.footer {
+  background-color: var(--primary-color-dark);
+}
+
+.footer__container {
+  display: grid;
+  gap: 4rem 2rem;
+}
+
+.footer__logo {
+  margin-bottom: 2rem;
+}
+
+.footer__logo img {
+  max-width: 45px;
+}
+
+.footer__logo span {
+  font-size: 1.5rem;
+  color: var(--white);
+}
+
+.footer__col p {
+  margin-bottom: 2rem;
+  color: var(--extra-light);
+  line-height: 1.5rem;
+}
+
+.footer__socials {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+.footer__socials a {
+  padding: 6px 8px;
+  font-size: 1.125rem;
+  color: var(--text-dark);
+  background-color: var(--white);
+  border-radius: 100%;
+}
+
+.footer__socials a:hover {
+  color: var(--white);
+  background-color: var(--primary-color);
+}
+
+.footer__col h4 {
+  margin-bottom: 2rem;
+  font-size: 1.2rem;
+  font-weight: 500;
+  color: var(--white);
+}
+
+.footer__links {
+  display: grid;
+  gap: 1rem;
+}
+
+.footer__links a {
+  color: var(--extra-light);
+}
+
+.footer__links a:hover {
+  color: var(--primary-color);
+}
+
+.footer__links span {
+  display: inline-block;
+  margin-right: 10px;
+  padding: 4px 6px;
+  border: 1px solid var(--extra-light);
+  border-radius: 100%;
+}
+
+.footer__links a:hover span {
+  border-color: var(--primary-color);
+}
+
+.footer__bar {
+  padding: 1rem;
+  font-size: 0.9rem;
+  color: var(--extra-light);
+  text-align: center;
+}
+/* Media Query for screens wider than 540px */
+@media (width > 540px) {
+  /* Apply a 2-column grid layout for .footer__container */
+  .footer__container {
+    grid-template-columns: repeat(2, 1fr);/* Create 2 equal columns */
+  }
+}
+
+/* Media Query for screens wider than 768px */
+@media (width > 768px) {
+  nav {
+    position: static;
+    padding: 1.5rem 1rem;
+    max-width: var(--max-width);
+    margin-inline: auto;
+    margin-bottom: 5rem;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+  }
+
+  .nav__header {
+    flex: 1;
+    padding: 0;
+    background-color: transparent;
+  }
+
+  .nav__logo img {
+    max-width: 45px;
+  }
+
+  .nav__logo .logo-dark {
+    display: flex;
+  }
+
+  .nav__logo .logo-white {
+    display: none;
+  }
+
+  .nav__logo span {
+    font-size: 1.5rem;
+    color: var(--primary-color-dark);
+  }
+
+  .nav__menu__btn {
+    display: none;
+  }
+
+  .nav__links {
+    position: static;
+    width: fit-content;
+    padding: 0;
+    flex-direction: row;
+    background-color: transparent;
+    transform: none !important;
+  }
+
+  .nav__links a {
+    font-weight: 500;
+    color: var(--text-dark);
+  }
+
+  .nav__links li:last-child {
+    display: none;
+  }
+
+  .nav__btns {
+    flex: 1;
+    display: flex;
+    justify-content: flex-end;
+  }
+
+  .header__container {
+    padding-top: 0;
+    grid-template-columns:
+      minmax(0, 1fr)
+      minmax(0, calc(var(--max-width) / 2))/* Second column: take at least 0, and use half of the max-width defined in CSS variable */
+      minmax(0, calc(var(--max-width) / 2))/* Third column: similar to the second column, also half of the max-width */
+      minmax(0, 1fr);/* Fourth column: take at least 0, and stretch to fill remaining space */
+  }
+
+  .header__image {
+    grid-area: 1/3/2/5;
+    height: 100%;
+  }
+
+  .header__image img {
+    padding-bottom: 5rem;
+    position: absolute;
+    top: 50%;
+    left: 0;
+    transform: translateY(-50%);
+    width: unset;
+    height: 100%;
+  }
+
+  .header__content {
+    padding-block: 2rem 10rem;
+    grid-area: 1/2/2/3;
+  }
+
+  .header__content h2 {
+    margin-inline-start: unset;
+  }
+
+  .header__content :is(h1, .section__description) {
+    text-align: left;
+  }
+  .footer__container {
+    grid-template-columns: repeat(4, 1fr);
+  }
+}
