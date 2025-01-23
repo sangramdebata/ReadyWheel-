@@ -13,19 +13,19 @@
     />
     <link rel="stylesheet" href="style.css" />
     <title>Ready Wheel</title>
+     <!-- A perfect title -->
   </head>
   <body>
     <header>
       <!-- Navigation Header -->
       <!-- Navigation Header containing the logo and menu button -->
-      <nav>
+      <nav class="nav_bar">
         <div class="nav__header">
           <!-- Logo Section: Links to the homepage with different logo images for light/dark mode -->
           <div class="nav__logo">
             <!-- Logo Header -->
             <a href="#" class="logo">
               <img src="assets/logo-white.png" alt="logo" class="logo-white" />
-              <img src="assets/logo-dark.png" alt="logo" class="logo-dark" />
               <!-- Text Logo displaying the platform's name -->
               <span>ReadyWheel</span>
             </a>
@@ -42,15 +42,77 @@
           <li><a href="#about">About</a></li>
           <li><a href="#deals">Services</a></li>
           <li><a href="#choose">Why Choose Us</a></li>
-          <li><a href="#contact">Contact</a></li>
+          <li><a href="#contact">Rent</a></li>
           <li><a href="http://127.0.0.1:5500/login.html?">Register</a></li>
         </ul>
         <!-- Login Button -->
         <div class="nav__btns">
-          
-          <button class="btn">Login</button>
+          <button id="login-btn" class="btn">Login</button>
         </div>
       </nav>
+
+      <!-- Login Pop up Start-->
+
+          <!-- Login Popup -->
+          <div class="overlay" id="login-popup">
+            <div class="popup">
+                <span class="close-btn" id="close-login">&times;</span>
+                <h2>Welcome Back</h2>
+                <form>
+                    <label for="login-username">Username</label>
+                    <input type="text" id="login-username" placeholder="Enter your username" required>
+                    
+                    <label for="login-password">Password</label>
+                    <div class="password-container">
+                        <input type="password" id="login-password" placeholder="Enter your password" required>
+                        <span class="toggle-password" data-target="login-password">&#128065;</span>
+                    </div>
+
+                    <button type="submit">Login</button>
+                </form>
+                <div class="switch-link">
+                    Don't have an account? <a href="#" id="show-register">Register here</a>
+                </div>
+            </div>
+        </div>
+
+        <!-- Registration Popup -->
+        <div class="overlay" id="register-popup">
+            <div class="popup">
+                <span class="close-btn" id="close-register">&times;</span>
+                <h2>Create Account</h2>
+                <form>
+                    <label for="reg-name">Full Name</label>
+                    <input type="text" id="reg-name" name="FName" placeholder="Enter your full name" required>
+
+                    <label for="reg-mobile">Mobile Number</label>
+                    <input type="tel" id="reg-mobile" name="mob" placeholder="Enter your mobile number" required>
+
+                    <label for="reg-email">Email</label>
+                    <input type="email" id="reg-email" name="mail" placeholder="Enter your email" required>
+
+                    <label for="reg-password">Password</label>
+                    <div class="password-container">
+                        <input type="password" id="reg-password" placeholder="Create a password" required>
+                        <span class="toggle-password" data-target="reg-password">&#128065;</span>
+                    </div>
+
+                    <label for="reg-confirm-password">Confirm Password</label>
+                    <div class="password-container">
+                        <input type="password" id="reg-confirm-password" placeholder="Confirm your password" required>
+                        <span class="toggle-password" data-target="reg-confirm-password">&#128065;</span>
+                    </div>
+
+                    <button type="submit">Register</button>
+                </form>
+                <div class="switch-link">
+                    Already have an account? <a href="#" id="show-login">Login here</a>
+                </div>
+            </div>
+        </div>
+
+      <!-- Login Pop up end -->
+
       <!-- Main header container with an ID of "home" for easy access in CSS/JS -->
       <div class="header__container" id="home">
          <!-- Header image section displaying a car image for visual appeal -->
@@ -81,7 +143,7 @@
           <div class="footer__logo">
             <a href="#" class="logo">
               <!-- Footer image -->
-              <img src="logo-white.png" alt="logo" />
+              <img src="assets/logo-white.png" alt="logo" />
               <span>Car Rental</span>
             </a>
           </div>
@@ -168,6 +230,7 @@
       <div class="footer__bar">
         <!-- Footer copyright text with our website name  -->
         Copyright © 2025 Readywheel. All rights reserved.
+        <br>Made with 	&#10084;
       </div>
     </footer>
 
