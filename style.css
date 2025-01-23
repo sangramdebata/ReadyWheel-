@@ -7,13 +7,30 @@
   --text-light: #767268;/* Lighter text color (used for less important text, such as subtitles) */
   --extra-light: #f1f2ff;/* Very light color (used for backgrounds or subtle accents) */
   --white: #ffffff;
-  --max-width: 1200px;/* Maximum width for the main content (used for layout control) */
+  --max-width: 100vw;/* Maximum width for the main content (used for layout control) */
 }
 
 * {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
+}
+
+html,
+body {
+  scroll-behavior: smooth;/* Enable smooth scrolling when navigating to anchor links */
+}
+
+body {
+  font-family: "Roboto", sans-serif;
+}
+
+header {
+  background: linear-gradient(
+    to bottom,
+    rgba(67, 51, 237, 0.4),
+    rgba(165, 150, 247, 0.1)
+  );
 }
 .section__container {
   max-width: var(--max-width);
@@ -49,6 +66,133 @@
   cursor: pointer;/* Change cursor to pointer on hover */
 }
 
+/* Login Pop up start */
+
+
+.overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.7);
+  display: none;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+}
+
+.popup {
+  background: #e6f0f9;
+  width: 100%;
+  max-width: 400px;
+  border-radius: 12px;
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+  padding: 20px;
+  position: relative;
+  animation: fadeIn 0.3s ease;
+}
+
+@keyframes fadeIn {
+  from {
+      opacity: 0;
+      transform: scale(0.9);
+  }
+  to {
+      opacity: 1;
+      transform: scale(1);
+  }
+}
+
+.popup h2 {
+  margin: 10px 0;
+  font-size: 24px;
+  color: var(--text-dark);
+  text-align: center;
+}
+
+.popup form {
+  display: flex;
+  flex-direction: column;
+}
+
+.popup form label {
+  margin: 10px 0 5px;
+  font-size: 14px;
+  color: var(--text-dark);
+}
+
+.popup form input {
+  padding: 10px;
+  font-size: 14px;
+  border: 1px solid #90caf9;
+  border-radius: 5px;
+}
+
+.popup form .password-container {
+  position: relative;
+}
+
+.popup form .password-container input {
+  width: 100%;
+}
+
+.popup form .password-container .toggle-password {
+  position: absolute;
+  top: 50%;
+  right: 10px;
+  transform: translateY(-50%);
+  cursor: pointer;
+  font-size: 16px;
+  color: var(--text-dark);
+}
+
+.popup form button {
+  margin-top: 15px;
+  padding: 10px;
+  font-size: 16px;
+  background: var(--primary-color-dark);
+  color: #fff;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background 0.3s;
+}
+
+.popup form button:hover {
+  background: var(--primary-color);
+}
+
+.popup .close-btn {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  font-size: 20px;
+  color: #aaa;
+  cursor: pointer;
+}
+
+.popup .close-btn:hover {
+  color: #333;
+}
+
+.popup .switch-link {
+  margin-top: 15px;
+  text-align: center;
+  font-size: 14px;
+}
+
+.popup .switch-link a {
+  color: var(--text-dark);
+  text-decoration: none;
+  font-weight: bold;
+}
+
+.popup .switch-link a:hover {
+  text-decoration: underline;
+}
+
+/* Login pop up end */
 .btn:hover {
   background-color: var(--primary-color-dark);
 }
@@ -56,7 +200,7 @@
 .logo {
   display: flex;
   align-items: center;
-  gap: 10px;
+  /* gap: 10px; */
 }
 
 .logo img {
@@ -85,28 +229,15 @@ ul {
   list-style: none;
 }
 
-html,
-body {
-  scroll-behavior: smooth;/* Enable smooth scrolling when navigating to anchor links */
-}
-
-body {
-  font-family: "Roboto", sans-serif;
-}
-
-header {
-  background: linear-gradient(
-    to bottom,
-    rgba(67, 51, 237, 0.4),
-    rgba(165, 150, 247, 0.1)
-  );
-}
 /* Navigation Bar Styling */
-nav {
-  position: fixed;
+.nav_bar {
+  position: sticky;
   isolation: isolate;
   width: 100%;
-  z-index: 9;/* Set the z-index to ensure the navbar stays on top of other content */
+  top: 0;
+  z-index: 1000;/* Set the z-index to ensure the navbar stays on top of other content */
+  background-color: var(--primary-color-dark);
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
 }
 /* Navigation Header Styling */
 .nav__header {
@@ -118,9 +249,6 @@ nav {
   background-color: var(--primary-color-dark);
 }
 
-.nav__logo .logo-dark {
-  display: none;
-}
 
 .nav__menu__btn {
   font-size: 1.5rem;/* Use Flexbox for a responsive, flexible layout */
@@ -149,7 +277,7 @@ nav {
 }
 
 .nav__links a {
-  color: var(--white);
+  color: #aaa;
 }
 
 .nav__links a:hover {
@@ -374,12 +502,12 @@ nav {
   }
 
   .nav__logo .logo-white {
-    display: none;
+    display: flex;
   }
 
   .nav__logo span {
     font-size: 1.5rem;
-    color: var(--primary-color-dark);
+    color: var(--extra-light);
   }
 
   .nav__menu__btn {
@@ -397,7 +525,7 @@ nav {
 
   .nav__links a {
     font-weight: 500;
-    color: var(--text-dark);
+    color: var(--white);
   }
 
   .nav__links li:last-child {
