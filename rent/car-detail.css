@@ -370,7 +370,7 @@ ul {
 
 .img-thumbnail:hover {
     opacity: 0.8;
-    border-color: #1a56db;
+    border-color: #8a79f0;
 }
 
 /* Car details section */
@@ -469,7 +469,7 @@ ul {
 
 /* Book now button */
 .btn-primary {
-    background-color: #1a56db;
+    background-color: #8a79f0;
     border: none;
     font-weight: 600;
     letter-spacing: 1px;
@@ -478,7 +478,7 @@ ul {
 }
 
 .btn-primary:hover {
-    background-color: #1e40af;
+    background-color: #8a79f0;
     transform: translateY(-2px);
 }
 

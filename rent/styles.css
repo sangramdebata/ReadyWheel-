@@ -1,5 +1,5 @@
 :root {
-    --primary-color: #1a56db;
+    --primary-color: #8a79f0;
     --secondary-color: #f3f4f6;
     --text-color: #374151;
     --muted-text: #6b7280;
@@ -10,7 +10,7 @@ body {
     font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
     color: var(--text-color);
     background-color: #f9fafb;
-    padding-top: 60px; /* Adjust this based on navbar height */
+    /* padding-top: 60px; Adjust this based on navbar height */
     
 }
 /* header */

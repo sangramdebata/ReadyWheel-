@@ -578,3 +578,51 @@ ul {
     grid-template-columns: repeat(4, 1fr);
   }
 }
+
+
+
+
+/* Add these styles to your existing style.css file */
+
+/* Profile icon styles */
+.profile-icon-container {
+  position: relative;
+  display: none; /* Hidden by default, shown when logged in */
+}
+
+.profile-icon {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  cursor: pointer;
+  border: 2px solid var(--white);
+}
+
+.profile-dropdown {
+  position: absolute;
+  top: 100%;
+  right: 0;
+  background-color: var(--white);
+  border-radius: 8px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  width: 180px;
+  display: none;
+  z-index: 1000;
+}
+
+.profile-dropdown a {
+  display: block;
+  padding: 10px 15px;
+  color: var(--text-dark);
+  text-decoration: none;
+  transition: background-color 0.3s;
+}
+
+.profile-dropdown a:hover {
+  background-color: #f5f5f5;
+  color: var(--primary-color);
+}
+
+.profile-icon-container:hover .profile-dropdown {
+  display: block;
+}
