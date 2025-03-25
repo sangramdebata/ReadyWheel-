@@ -66,7 +66,7 @@
             <div class="popup">
                 <span class="close-btn" id="close-login">&times;</span>
                 <h2>Welcome Back</h2>
-                <form>
+                <form method="get" id="log_form">
                     <label for="login-username">Username</label>
                     <input type="text" id="login-username" placeholder="Enter your username" required>
                     
@@ -89,7 +89,7 @@
             <div class="popup">
                 <span class="close-btn" id="close-register">&times;</span>
                 <h2>Create Account</h2>
-                <form>
+                <form method="post" id="reg_form">
                     <label for="reg-name">Full Name</label>
                     <input type="text" id="reg-name" name="FName" placeholder="Enter your full name" required>
 
