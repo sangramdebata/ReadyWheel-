@@ -134,29 +134,32 @@
                 <div class="filter-section mb-3">
                     <select class="form-select" id="brandFilter">
                         <option selected value="">Choose Brand</option>
-                        <option value="BMW">BMW</option>
-                        <option value="Mercedes">Mercedes</option>
+                        <option value="Maruti Suzuki">Maruti Suzuki</option>
+                        <option value="Tata">Tata</option>
+                        <option value="Hundai">Hundai</option>
                         <option value="Audi">Audi</option>
-                        <option value="Tesla">Tesla</option>
+                        <option value="Hero">Hero</option>
+                        <option value="Royal Enfield">Royal Enfield</option>
+                        <option value="Honda">Honda</option>
                     </select>
                 </div>
 
                 <div class="filter-section mb-3">
                     <select class="form-select" id="classFilter">
-                        <option selected value="">Choose Class</option>
-                        <option value="Luxury">Luxury</option>
-                        <option value="Sports">Sports</option>
-                        <option value="SUV">SUV</option>
-                        <option value="Electric">Electric</option>
+                        <option selected value="">Choose Vehicle</option>
+                        <option value="Car">Car</option>
+                        <option value="Bike">Bike</option>
+                        <option value="Two Wheeler">Two wheeler</option>
+                        
                     </select>
                 </div>
 
                 <div class="filter-section mb-3">
                     <h5>Model</h5>
                     <div class="model-buttons d-flex flex-wrap gap-2">
-                        <button class="btn model-btn" data-model="City Car">CITY CAR</button>
+                        <button class="btn model-btn" data-model="Family Car">Family Car</button>
                         <button class="btn model-btn" data-model="Sport">SPORT</button>
-                        <button class="btn model-btn" data-model="SUV">SUV</button>
+                        <button class="btn model-btn" data-model="CITY BIKE">CITY BIKE</button>
                         <button class="btn model-btn" data-model="Offroad">OFFROAD</button>
                     </div>
                 </div>
@@ -164,7 +167,7 @@
                 <div class="filter-section mb-3">
                     <h5>Price Range</h5>
                     <div class="price-range">
-                        <input type="range" class="form-range" id="priceRange" min="1500" max="250000" step="100" value="45000">
+                        <input type="range" class="form-range" id="priceRange" min="1500" max="250000" step="100" value="250000">
                         <div class="price-labels d-flex justify-content-between">
                             <span>$1,500</span>
                             <span id="priceValue">$45,000</span>
@@ -177,9 +180,8 @@
                     <select class="form-select" id="fuelFilter">
                         <option selected value="">Any Fuel</option>
                         <option value="Electric">Electric</option>
-                        <option value="Gasoline">Gasoline</option>
+                        <option value="Petrol">Petrol</option>
                         <option value="Diesel">Diesel</option>
-                        <option value="Hybrid">Hybrid</option>
                     </select>
                 </div>
 
@@ -225,37 +227,106 @@
     </div>
     
 </main>
-
-    <!-- Footer -->
-    <footer class="footer">
-        <div class="newsletter">
-            <h4>Subscribe to Our Newsletter</h4>
-            <p>Stay updated with the latest offers and news.</p>
-            <form>
-                <input type="email" placeholder="Enter your email" required>
-                <button type="submit">Subscribe</button>
-            </form>
-        </div>
-        <div class="quick-links">
-            <a href="#"><i class="ri-questionnaire-line"></i> FAQs</a>
-            <a href="#"><i class="ri-phone-line"></i> Contact Support</a>
-            <a href="#"><i class="ri-file-list-2-line"></i> Terms & Policies</a>
-        </div>
-        <div class="section__container footer__container">
-            <!-- Footer content here -->
-             <!-- Footer Column: Logo and Introduction -->
-          <div class="footer__col">
-            <!-- Footer Logo -->
-            <div class="footer__logo">
-              <a href="#" class="logo">
-                <img src="../assets/logo-white.png" alt="logo" />
-                <span>Car Rental</span>
-              </a>
-            </div>
+<footer class="footer">
+      <!-- Footer Container -->
+      <div class="section__container footer__container">
+        <!-- Footer Column: Logo and Introduction -->
+        <div class="footer__col">
+          <!-- Footer Logo -->
+          <div class="footer__logo">
+            <a href="#" class="logo">
+              <!-- Footer image -->
+              <img src="assets/logo-white.png" alt="logo" />
+              <span>Car Rental</span>
+            </a>
           </div>
+          <!-- Service Description -->
+          <p>
+            We're here to provide you with the best vehicles and a seamless
+            rental experience. Stay connected for updates, special offers, and
+            more. Drive with confidence!
+          </p>
+          <!-- Social Media Links -->
+          <ul class="footer__socials">
+            <!-- Social Media Links List -->
+            <li>
+              <!-- Facebook link with icon -->
+              <a href="#"><i class="ri-facebook-fill"></i></a>
+            </li>
+            <li>
+              <!-- Twitter link with icon -->
+              <a href="#"><i class="ri-twitter-fill"></i></a>
+            </li>
+            <li>
+              <!-- LinkedIn link with icon -->
+              <a href="#"><i class="ri-linkedin-fill"></i></a>
+            </li>
+            <li>
+              <!-- Instagram link with icon -->
+              <a href="#"><i class="ri-instagram-line"></i></a>
+            </li>
+            <li>
+               <!-- YouTube link with icon -->
+              <a href="#"><i class="ri-youtube-fill"></i></a>
+            </li>
+          </ul>
         </div>
+        <div class="footer__col">
+          <h4>Our Services</h4>
+          <!-- Footer Column: Our Services -->
+          <ul class="footer__links">
+            <li><a href="#home">Home</a></li>
+            <li><a href="#about">About</a></li>
+            <li><a href="#deals">Rental Deals</a></li>
+            <li><a href="#choose">Why Choose Us</a></li>
+            <li><a href="#client">Testimonials</a></li>
+          </ul>
+        </div>
+        <!-- Footer Column: Vehicles Brand -->
+        <div class="footer__col">
+          <h4>Vehicles Brand</h4>
+          <ul class="footer__links">
+            <li><a href="#">Tata Cars</a></li>
+            <li><a href="#">Mahindra cars</a></li>
+            <li><a href="#">Tata Cars</a></li>
+            <li><a href="#">Hero Bikes</a></li>
+            <li><a href="#">Honda Scooters</a></li>
+           
+          </ul>
+        </div>
+        <!-- Footer Column: Contact Information -->
+        <div class="footer__col">
+          <h4>Contact</h4>
+          <!-- List of Contact Details -->
+          <ul class="footer__links">
+             <!-- Contact Number -->
+            <li>
+              <a href="#">
+                <span><i class="ri-phone-fill"></i></span> +91 9998887775
+              </a>
+            </li>
+            <!-- Physical Address -->
+            <li>
+              <a href="#">
+                <span><i class="ri-map-pin-fill"></i></span> Angul,odisha,India
+              </a>
+            </li>
+            <!-- Email Address -->
+            <li>
+              <a href="#">
+                <span><i class="ri-mail-fill"></i></span> info@readywheel
+              </a>
+            </li>
+          </ul>
+        </div>
+      </div>
+      <div class="footer__bar">
+        <!-- Footer copyright text with our website name  -->
+        Copyright © 2025 Readywheel. All rights reserved.
+        <br>Made with 	&#10084;
+      </div>
     </footer>
-
+    
     <!-- Bootstrap JS -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
     <!-- Custom JS -->

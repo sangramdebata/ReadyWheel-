@@ -191,34 +191,37 @@
             </div>
             <div class="team-grid">
                 <div class="team-member">
-                    <img src="assets/team/ceo.jpg" alt="CEO">
+                    <img src="../assets/profile3.png" alt="CEO">
                     <div class="team-member-info">
-                        <h3>John Doe</h3>
+                        <h3>Bibhuti Bhushan Sahu</h3>
                         <p>CEO & Founder</p>
                         <div class="social-links">
                             <a href="#"><i class="ri-linkedin-fill"></i></a>
+                            <a href="#"><i class="ri-instagram-fill"></i></a>
                             <a href="#"><i class="ri-twitter-fill"></i></a>
                         </div>
                     </div>
                 </div>
                 <div class="team-member">
-                    <img src="assets/team/operations.jpg" alt="Operations Manager">
+                    <img src="../assets/profile3.png" alt="Operations Manager">
                     <div class="team-member-info">
-                        <h3>Jane Smith</h3>
+                        <h3>Sambit Behera</h3>
                         <p>Operations Manager</p>
                         <div class="social-links">
                             <a href="#"><i class="ri-linkedin-fill"></i></a>
+                            <a href="#"><i class="ri-instagram-fill"></i></a>
                             <a href="#"><i class="ri-twitter-fill"></i></a>
                         </div>
                     </div>
                 </div>
                 <div class="team-member">
-                    <img src="assets/team/customer-service.jpg" alt="Customer Service Head">
+                    <img src="../assets/profile3.png" alt="Customer Service Head">
                     <div class="team-member-info">
-                        <h3>Mike Johnson</h3>
+                        <h3>Sangram Debata </h3>
                         <p>Customer Service Head</p>
                         <div class="social-links">
                             <a href="#"><i class="ri-linkedin-fill"></i></a>
+                            <a href="#"><i class="ri-instagram-fill"></i></a>
                             <a href="#"><i class="ri-twitter-fill"></i></a>
                         </div>
                     </div>
