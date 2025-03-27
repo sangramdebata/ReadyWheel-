@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link href="https://cdn.jsdelivr.net/npm/remixicon@4.5.0/fonts/remixicon.css" rel="stylesheet" />
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" />
-    <link rel="stylesheet" href="/ReadyWheel-/style.css" />
+    <link rel="stylesheet" href="../style.css" />
     <link rel="stylesheet" href="profile.css" />
     <link rel="stylesheet" href="profile-edit.css">
     <title>User Profile - Ready Wheel</title>
@@ -17,8 +17,8 @@
             <div class="nav__header">
                 <!-- Logo Section -->
                 <div class="nav__logo">
-                    <a href="index.html" class="logo">
-                        <img src="/ReadyWheel-/assets/logo-white.png" alt="logo" class="logo-white" />
+                    <a href="index.php" class="logo">
+                        <img src="../assets/logo-white.png" alt="logo" class="logo-white" />
                         <span>ReadyWheel</span>
                     </a>
                 </div>
@@ -29,18 +29,18 @@
             </div>
             <!-- Navigation Links -->
             <ul class="nav__links" id="nav-links">
-                <li><a href="/ReadyWheel-/index.html">Home</a></li>
-                <li><a href="/ReadyWheel-/about.html">About</a></li>
-                <li><a href="/ReadyWheel-/why-choose-us/choose.html">Why Choose Us</a></li>
-                <li><a href="/ReadyWheel-/rent/rent.html">Rent</a></li>
-                <li><a href="owner.html">List Your Car</a></li>
+                <li><a href="../index.php">Home</a></li>
+                <li><a href="../about.php">About</a></li>
+                <li><a href="../why-choose-us/choose.php">Why Choose Us</a></li>
+                <li><a href="../rent/rent.php">Rent</a></li>
+                <li><a href="owner.php">List Your Car</a></li>
             </ul>
             <!-- Profile Icon (replaces Login Button when logged in) -->
             <div class="nav__btns">
                 <div class="profile-icon-container" id="profile-container">
-                    <img src="assets/profile-placeholder.jpg" alt="Profile" class="profile-icon" id="profile-icon">
+                    <img src="../assets/profile-placeholder.jpg" alt="Profile" class="profile-icon" id="profile-icon">
                     <div class="profile-dropdown">
-                        <a href="profile.html">My Profile</a>
+                        <a href="profile.php">My Profile</a>
                         <a href="#">My Bookings</a>
                         <a href="#">Settings</a>
                         <a href="#" id="logout-btn">Logout</a>
@@ -252,91 +252,10 @@
       </div>
     </div>
   </div>
-  
-  
-  
-  
 
-    <footer class="footer">
-        <!-- Footer Container -->
-        <div class="section__container footer__container">
-            <!-- Footer Column: Logo and Introduction -->
-            <div class="footer__col">
-                <!-- Footer Logo -->
-                <div class="footer__logo">
-                    <a href="#" class="logo">
-                        <!-- Footer image -->
-                        <img src="/ReadyWheel-/assets/logo-white.png" alt="logo" />
-                        <span>ReadyWheel</span>
-                    </a>
-                </div>
-                <!-- Service Description -->
-                <p>
-                    We're here to provide you with the best vehicles and a seamless
-                    rental experience. Stay connected for updates, special offers, and
-                    more. Drive with confidence!
-                </p>
-                <!-- Social Media Links -->
-                <ul class="footer__socials">
-                    <li><a href="#"><i class="ri-facebook-fill"></i></a></li>
-                    <li><a href="#"><i class="ri-twitter-fill"></i></a></li>
-                    <li><a href="#"><i class="ri-linkedin-fill"></i></a></li>
-                    <li><a href="#"><i class="ri-instagram-line"></i></a></li>
-                    <li><a href="#"><i class="ri-youtube-fill"></i></a></li>
-                </ul>
-            </div>
-            <div class="footer__col">
-                <h4>Our Services</h4>
-                <ul class="footer__links">
-                    <li><a href="index.html">Home</a></li>
-                    <li><a href="#about">About</a></li>
-                    <li><a href="#deals">Rental Deals</a></li>
-                    <li><a href="#choose">Why Choose Us</a></li>
-                    <li><a href="#client">Testimonials</a></li>
-                </ul>
-            </div>
-            <!-- Footer Column: Vehicles Brand -->
-            <div class="footer__col">
-                <h4>Vehicles Brand</h4>
-                <ul class="footer__links">
-                    <li><a href="#">Tata Cars</a></li>
-                    <li><a href="#">Mahindra cars</a></li>
-                    <li><a href="#">Tata Cars</a></li>
-                    <li><a href="#">Hero Bikes</a></li>
-                    <li><a href="#">Honda Scooters</a></li>
-                </ul>
-            </div>
-            <!-- Footer Column: Contact Information -->
-            <div class="footer__col">
-                <h4>Contact</h4>
-                <ul class="footer__links">
-                    <li>
-                        <a href="#">
-                            <span><i class="ri-phone-fill"></i></span> +91 9998887775
-                        </a>
-                    </li>
-                    <li>
-                        <a href="#">
-                            <span><i class="ri-map-pin-fill"></i></span> Angul, Odisha, India
-                        </a>
-                    </li>
-                    <li>
-                        <a href="#">
-                            <span><i class="ri-mail-fill"></i></span> info@readywheel.com
-                        </a>
-                    </li>
-                </ul>
-            </div>
-        </div>
-        <div class="footer__bar">
-            Copyright © 2025 ReadyWheel. All rights reserved.
-            <br>Made with &#10084;
-        </div>
-    </footer>
-
+    <!-- Bootstrap JS -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-    <script src="https://unpkg.com/scrollreveal"></script>
-    <script src="app.js"></script>
+    <!-- Custom JS -->
     <script src="profile.js"></script>
 </body>
-</html>
+</html> 
