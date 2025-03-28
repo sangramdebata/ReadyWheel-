@@ -203,7 +203,7 @@
                     </div>
                 </div>
                 <div class="team-member">
-                    <img src="../assets/profile3.png" alt="Operations Manager">
+                    <img src="../assets/Sangram1.jpg" alt="Operations Manager">
                     <div class="team-member-info">
                         <h3>Sangram Debata</h3>
                         <p>Operations Manager</p>
