@@ -40,7 +40,7 @@
                <!-- Navigation Links -->
               <ul class="nav__links" id="nav-links">
                 <li><a href="../index.php">Home</a></li>
-                <li><a href="../about.php">About</a></li>
+                <li><a href="../About/about.php">About</a></li>
                 <li><a href="../why-choose-us/choose.php">Why Choose Us</a></li>
                 <li><a href="../rent/rent.php">Rent</a></li>
                 <li><a href="http://127.0.0.1:5500/login.php?">Register</a></li>
@@ -236,7 +236,7 @@
           <div class="footer__logo">
             <a href="#" class="logo">
               <!-- Footer image -->
-              <img src="assets/logo-white.png" alt="logo" />
+              <img src="../assets/logo-white.png" alt="logo" />
               <span>Car Rental</span>
             </a>
           </div>

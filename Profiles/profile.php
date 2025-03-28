@@ -30,7 +30,7 @@
             <!-- Navigation Links -->
             <ul class="nav__links" id="nav-links">
                 <li><a href="../index.php">Home</a></li>
-                <li><a href="../about.php">About</a></li>
+                <li><a href="../About/about.php">About</a></li>
                 <li><a href="../why-choose-us/choose.php">Why Choose Us</a></li>
                 <li><a href="../rent/rent.php">Rent</a></li>
                 <li><a href="owner.php">List Your Car</a></li>
@@ -58,8 +58,8 @@
                     <div class="card mb-4">
                         <div class="card-body text-center">
                             <img src="assets/profile-placeholder.jpg" alt="Profile Picture" class="rounded-circle img-fluid" style="width: 150px;">
-                            <h5 class="my-3" id="user-name">John Doe</h5>
-                            <p class="text-muted mb-1">Member since: <span id="member-since">March 2023</span></p>
+                            <h5 class="my-3" id="user-name">Chaitanya Behera</h5>
+                            <p class="text-muted mb-1">Member since: <span id="member-since">March 2025</span></p>
                             <div class="d-flex justify-content-center mb-2">
                                 <button type="button" class="btn btn-primary">Edit Profile</button>
                             </div>
@@ -75,7 +75,7 @@
                                     <p class="mb-0">Full Name</p>
                                 </div>
                                 <div class="col-sm-9">
-                                    <p class="text-muted mb-0" id="full-name">John Doe</p>
+                                    <p class="text-muted mb-0" id="full-name">Chaitanya Behera</p>
                                 </div>
                             </div>
                             <hr>
@@ -84,7 +84,7 @@
                                     <p class="mb-0">Email</p>
                                 </div>
                                 <div class="col-sm-9">
-                                    <p class="text-muted mb-0" id="email">johndoe@example.com</p>
+                                    <p class="text-muted mb-0" id="email">chaitanya@gmail.com</p>
                                 </div>
                             </div>
                             <hr>
@@ -191,7 +191,7 @@
               <div class="col-md-4 text-center mb-4">
                 <div class="profile-pic-wrapper">
                   <div class="pic-holder">
-                    <img id="profilePicPreview" class="pic" src="assets/profile-placeholder.jpg">
+                    <img id="profilePicPreview" class="pic" src="../assets/profile-placeholder.jpg">
                     <input type="file" id="profilePicUpload" class="uploadProfileInput" accept="image/*">
                     <label for="profilePicUpload" class="upload-file-block">
                       <div class="text-center">

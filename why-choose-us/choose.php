@@ -281,9 +281,9 @@
                             <p>"The service was exceptional! From booking to return, everything was smooth and professional. I'll definitely be using ReadyWheel again."</p>
                         </div>
                         <div class="testimonial-author">
-                            <img src="assests/testimonials/user1.jpg" alt="User 1">
+                            <img src="../assets/user1.jpg" alt="User 1">
                             <div>
-                                <h4>John Doe</h4>
+                                <h4>Chaitanya Behera</h4>
                                 <p>Business Traveler</p>
                             </div>
                         </div>
@@ -299,7 +299,7 @@
                         <div class="testimonial-author">
                             <img src="assests/testimonials/user2.jpg" alt="User 2">
                             <div>
-                                <h4>Jane Smith</h4>
+                                <h4>Shreyaa Sahu</h4>
                                 <p>Family Vacationer</p>
                             </div>
                         </div>
@@ -315,7 +315,7 @@
                         <div class="testimonial-author">
                             <img src="assests/testimonials/user3.jpg" alt="User 3">
                             <div>
-                                <h4>Mike Johnson</h4>
+                                <h4>Priyanka Sanam</h4>
                                 <p>Regular Customer</p>
                             </div>
                         </div>
@@ -404,5 +404,6 @@
     <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
     <!-- Custom JS -->
     <script src="script.js"></script>
+    <script src="../app.js"></script>
 </body>
 </html> 

@@ -228,12 +228,12 @@ function calculateDurationAndPrice(car) {
     const durationHours = durationMs / (1000 * 60 * 60);
     
     // Calculate price (hourly rate based on car price)
-    const hourlyRate = car.price / 1000; // Example calculation
+    const hourlyRate = car.price / 10000; // Example calculation
     const price = hourlyRate * durationHours;
     
     // Update UI
     durationText.textContent = `${durationHours.toFixed(2)} hours`;
-    totalPrice.textContent = `$${price.toFixed(2)}`;
+    totalPrice.textContent = `${price.toFixed(2)}`;
 }
 
 // Validate booking form

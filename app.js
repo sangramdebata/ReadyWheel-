@@ -95,7 +95,7 @@ if (togglePasswordIcons.length > 0) {
 // Enhanced login functionality
 document.addEventListener('DOMContentLoaded', function() {
     // Check if login form exists and add event listener
-    const loginForm = document.querySelector('#login-popup form');
+    const loginForm = document.querySelector('#log_form');
     if (loginForm) {
         loginForm.addEventListener('submit', function(e) {
             e.preventDefault();
@@ -105,9 +105,44 @@ document.addEventListener('DOMContentLoaded', function() {
             const password = document.getElementById('login-password').value;
             
             // In a real application, you would validate these credentials with a server
-            // For demo purposes, we'll just set the login status in localStorage
+            // For demo purposes, we'll use predefined user data
+            const userData = {
+                name: "Chaitanya Behera",
+                email: "chaitanya@gmail.com",
+                phone: "(+91) 9998887775",
+                address: "123 Main Street, Angul, Odisha, India",
+                memberSince: "March 2025",
+                aadhar: "XXXX XXXX 1234",
+                license: "DL-1234567890",
+                profilePic: "assets/profile-placeholder.jpg",
+                transactions: [
+                    {
+                        date: "15 Mar 2025",
+                        car: "Tata Nexon",
+                        duration: "3 days",
+                        amount: "₹4,500",
+                        status: "Completed",
+                    },
+                    {
+                        date: "28 Feb 2025",
+                        car: "Mahindra XUV300",
+                        duration: "1 day",
+                        amount: "₹1,800",
+                        status: "Completed",
+                    },
+                    {
+                        date: "10 Feb 2025",
+                        car: "Honda City",
+                        duration: "5 days",
+                        amount: "₹8,000",
+                        status: "Completed",
+                    }
+                ]
+            };
+            
+            // Save login status and user data
             localStorage.setItem('isLoggedIn', 'true');
-            localStorage.setItem('username', username);
+            localStorage.setItem('userData', JSON.stringify(userData));
             
             // Close the popup
             loginPopup.style.display = 'none';
@@ -118,7 +153,7 @@ document.addEventListener('DOMContentLoaded', function() {
     }
     
     // Check if register form exists and add event listener
-    const registerForm = document.querySelector('#register-popup form');
+    const registerForm = document.querySelector('#reg_form');
     if (registerForm) {
         registerForm.addEventListener('submit', function(e) {
             e.preventDefault();
@@ -136,10 +171,22 @@ document.addEventListener('DOMContentLoaded', function() {
                 return;
             }
             
-            // In a real application, you would send this data to a server
-            // For demo purposes, we'll just set the login status in localStorage
+            // Create user data object
+            const userData = {
+                name: fullName,
+                email: email,
+                phone: mobile,
+                address: "123 Main Street, Angul, Odisha, India", // Default address
+                memberSince: new Date().toLocaleString('default', { month: 'long', year: 'numeric' }),
+                aadhar: "XXXX XXXX 1234", // Default value
+                license: "DL-1234567890", // Default value
+                profilePic: "assets/profile-placeholder.jpg",
+                transactions: [] // Empty transactions for new users
+            };
+            
+            // Save login status and user data
             localStorage.setItem('isLoggedIn', 'true');
-            localStorage.setItem('username', fullName);
+            localStorage.setItem('userData', JSON.stringify(userData));
             
             // Close the popup
             registerPopup.style.display = 'none';
