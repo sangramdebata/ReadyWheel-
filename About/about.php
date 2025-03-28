@@ -191,9 +191,9 @@
             </div>
             <div class="team-grid">
                 <div class="team-member">
-                    <img src="../assets/profile3.png" alt="CEO">
+                    <img src="../assets/Sambit.jpg" alt="CEO">
                     <div class="team-member-info">
-                        <h3>Bibhuti Bhushan Sahu</h3>
+                        <h3>Sambit Kumar Behera</h3>
                         <p>CEO & Founder</p>
                         <div class="social-links">
                             <a href="#"><i class="ri-linkedin-fill"></i></a>
@@ -205,7 +205,7 @@
                 <div class="team-member">
                     <img src="../assets/profile3.png" alt="Operations Manager">
                     <div class="team-member-info">
-                        <h3>Sambit Behera</h3>
+                        <h3>Sangram Debata</h3>
                         <p>Operations Manager</p>
                         <div class="social-links">
                             <a href="#"><i class="ri-linkedin-fill"></i></a>
@@ -215,9 +215,9 @@
                     </div>
                 </div>
                 <div class="team-member">
-                    <img src="../assets/profile3.png" alt="Customer Service Head">
+                    <img src="../assets/Bhushan.jpg" alt="Customer Service Head">
                     <div class="team-member-info">
-                        <h3>Sangram Debata </h3>
+                        <h3>Bibhuti Bhushan Sahu</h3>
                         <p>Customer Service Head</p>
                         <div class="social-links">
                             <a href="#"><i class="ri-linkedin-fill"></i></a>

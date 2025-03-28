@@ -63,10 +63,10 @@ const cars = [
         id: 1,
         name: "Maruti-Suzuki Swift",
         category: "Family Car",
-        price: 34500,
-        priceDisplay: "$34,500",
+        price: 807000,
+        priceDisplay: "Rs 8,07,000",
         transmission: "Manual",
-        fuel: "Diesel",
+        fuel: "Petrol",
         passenger: "4 Persons",
         image: "../assets/swift1.jpg",
         images: [
@@ -75,7 +75,7 @@ const cars = [
             "../assets/swift3.jpg",
             "../assets/swift4.jpg",
         ],
-        brand: "Maruti Suzuki",
+        brand: "Maruti_Suzuki",
         class: "Car",
         model: "Family Car",
         color: "Blue",
@@ -93,10 +93,10 @@ const cars = [
         id: 2,
         name: "TATA Tiago",
         category: "Family Car",
-        price: 45000,
-        priceDisplay: "$45,000",
+        price: 1040000,
+        priceDisplay: "Rs 10,40,000",
         transmission: "Automatic",
-        fuel: "Diesel",
+        fuel: "Electric",
         passenger: "5 Persons",
         image: "../assets/tiago3.jpg",
         images: [
@@ -123,8 +123,8 @@ const cars = [
         id: 3,
         name: "Mahendra Scorpio",
         category: "Family Car",
-        price: 120000,
-        priceDisplay: "$120,000",
+        price: 1440000,
+        priceDisplay: "Rs 14,40,000",
         transmission: "Manual",
         fuel: "Diesel",
         passenger: "7 Persons",
@@ -152,9 +152,9 @@ const cars = [
     {
         id: 4,
         name: "Activa 5G",
-        category: "Two wheeler",
-        price: 90000,
-        priceDisplay: "$90,000",
+        category: "Two_wheeler",
+        price: 97000,
+        priceDisplay: "Rs 97,000",
         transmission: "Automatic",
         fuel: "Petrol",
         passenger: "2 Persons",
@@ -166,7 +166,7 @@ const cars = [
            "../assets/activa5g-4.jpg"
         ],
         brand: "Honda",
-        class: "Two Wheeler",
+        class: "Two_wheeler",
         model: "CITY BIKE",
         color: "Blue",
         year: 2023,
@@ -176,14 +176,14 @@ const cars = [
         body: "Sedan",
         seats: 2,
         luggage: 5.3,
-        description: "Honda Activa 5G – Smooth & Reliable Ride!Rent the Honda Activa 5G for a hassle-free and fuel-efficient commute. With a stylish design, comfortable seating, and smooth performance, it’s perfect for city rides. Enjoy superior mileage, easy handling, and trusted reliability.Book now for a smooth journey! 🛵✨"
+        description: "Honda Activa 5G – Smooth & Reliable Ride!Rent the Honda Activa 5G for a hassle-free and fuel-efficient commute. With a stylish design, comfortable seating, and smooth performance, it's perfect for city rides. Enjoy superior mileage, easy handling, and trusted reliability.Book now for a smooth journey! 🛵✨"
     },
     {
         id: 5,
         name: "Audi Q5",
         category: "Sports Car",
-        price: 115000,
-        priceDisplay: "$115,000",
+        price: 6699000,
+        priceDisplay: "Rs 66,99,000",
         transmission: "Automatic",
         fuel: "Diesel",
         passenger: " 4 Persons",
@@ -196,7 +196,7 @@ const cars = [
         ],
         brand: "Audi",
         class: "Car",
-        model: "Sport",
+        model: "Luxury",
         color: "White",
         year: 2022,
         mileage: 120,
@@ -206,14 +206,14 @@ const cars = [
         seats: 5,
         doors: 4,
         luggage: 232,
-        description: "Audi Q5 – Luxury & Performance Combined!Rent the Audi Q5 for a premium driving experience with powerful performance, elegant design, and advanced features. With a spacious, luxurious interior and top-tier safety, it’s perfect for business trips, vacations, or city drives.Book now and drive in style! 🚘🔥."
+        description: "Audi Q5 – Luxury & Performance Combined!Rent the Audi Q5 for a premium driving experience with powerful performance, elegant design, and advanced features. With a spacious, luxurious interior and top-tier safety, it's perfect for business trips, vacations, or city drives.Book now and drive in style! 🚘🔥."
     },
     {
         id: 6,
         name: "Hero Splendor+",
         category: "Bike",
-        price: 85000,
-        priceDisplay: "$85,000",
+        price: 93571,
+        priceDisplay: "Rs 93,571",
         transmission: "Manual",
         fuel: "Petrol",
         passenger: "2 Persons",
@@ -240,8 +240,8 @@ const cars = [
         id: 7,
         name: "Hundai Creta",
         category: "Sports Car",
-        price: 250000,
-        priceDisplay: "$250,000",
+        price: 1322000,
+        priceDisplay: "Rs 13,22,000",
         transmission: "Automatic",
         fuel: "Diesel",
         passenger: "4 Persons",
@@ -254,8 +254,8 @@ const cars = [
         ],
         brand: "Hundai",
         class: "Car",
-        model: "Sport",
-        color: "While",
+        model: "Family Car",
+        color: "White",
         year: 2022,
         mileage: 30,
         engine: "200cc",
@@ -270,8 +270,8 @@ const cars = [
         id: 8,
         name: "Royal Enfield classic350",
         category: "Bike",
-        price: 45000,
-        priceDisplay: "$45,000",
+        price: 245000,
+        priceDisplay: "Rs 2,45,000",
         transmission: "Manual",
         fuel: "Petrol",
         passenger: "2 Persons",
@@ -282,7 +282,7 @@ const cars = [
            "../assets/Royalenfield-3.jpg",
            "../assets/Royalenfield-4.jpg",
         ],
-        brand: "Royal Enfield ",
+        brand: "Royal_Enfield",
         class: "Bike",
         model: "Offroad",
         color: "Black",
@@ -292,7 +292,7 @@ const cars = [
         drive: "4WD",
         body: "SUV",
         seats: 2,
-        description: "Royal Enfield Classic 350 – Ride with Power & Elegance!Rent the Royal Enfield Classic 350 for a thrilling and iconic riding experience. With its timeless design, powerful engine, and comfortable seating, it’s perfect for city cruising and long highway rides. Feel the road like never before with unmatched performance and style.Book now and ride like a legend! 🏍️🔥"
+        description: "Royal Enfield Classic 350 – Ride with Power & Elegance!Rent the Royal Enfield Classic 350 for a thrilling and iconic riding experience. With its timeless design, powerful engine, and comfortable seating, it's perfect for city cruising and long highway rides. Feel the road like never before with unmatched performance and style.Book now and ride like a legend! 🏍️🔥"
     }
 ];
 
@@ -383,9 +383,13 @@ function displayCars(carsToDisplay) {
 function setupEventListeners() {
     // Price range slider
     if (priceRange && priceValue) {
+        // Set initial value
+        priceValue.textContent = `Rs ${Number(priceRange.value).toLocaleString()}`;
+        
         priceRange.addEventListener('input', (e) => {
             const value = e.target.value;
-            priceValue.textContent = `$${Number(value).toLocaleString()}`;
+            priceValue.textContent = `Rs ${Number(value).toLocaleString()}`;
+            applyFilters(); // Apply filters immediately when price changes
         });
     }
     
@@ -394,17 +398,31 @@ function setupEventListeners() {
         button.addEventListener('click', () => {
             modelButtons.forEach(btn => btn.classList.remove('active'));
             button.classList.add('active');
+            applyFilters(); // Apply filters immediately when model button is clicked
         });
     });
     
     // Apply filters button
-    applyFiltersBtn.addEventListener('click', applyFilters);
+    if (applyFiltersBtn) {
+        applyFiltersBtn.addEventListener('click', applyFilters);
+    }
     
     // Sort select
-    sortSelect.addEventListener('change', applyFilters);
+    if (sortSelect) {
+        sortSelect.addEventListener('change', applyFilters);
+    }
     
     // Search input
-    searchInput.addEventListener('input', applyFilters);
+    if (searchInput) {
+        searchInput.addEventListener('input', applyFilters);
+    }
+
+    // Add change event listeners for all filters
+    [brandFilter, classFilter, fuelFilter, colorFilter, transmissionFilter].forEach(filter => {
+        if (filter) {
+            filter.addEventListener('change', applyFilters);
+        }
+    });
 }
 
 // Apply all filters
@@ -416,20 +434,21 @@ function applyFilters() {
     if (searchTerm) {
         filteredCars = filteredCars.filter(car => 
             car.name.toLowerCase().includes(searchTerm) || 
-            car.category.toLowerCase().includes(searchTerm)
+            car.category.toLowerCase().includes(searchTerm) ||
+            car.description.toLowerCase().includes(searchTerm)
         );
     }
     
     // Brand filter
     const selectedBrand = brandFilter.value;
     if (selectedBrand) {
-        filteredCars = filteredCars.filter(car => car.brand === selectedBrand);
+        filteredCars = filteredCars.filter(car => car.brand.trim() === selectedBrand);
     }
     
     // Class filter
     const selectedClass = classFilter.value;
     if (selectedClass) {
-        filteredCars = filteredCars.filter(car => car.class === selectedClass);
+        filteredCars = filteredCars.filter(car => car.class.trim() === selectedClass);
     }
     
     // Model filter

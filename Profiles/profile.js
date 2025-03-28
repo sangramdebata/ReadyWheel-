@@ -125,14 +125,14 @@ document.addEventListener("DOMContentLoaded", () => {
       // In a real application, this data would come from a server/database
       // For demo purposes, we're using hardcoded data
       const userData = {
-        name: "John Doe",
-        email: "johndoe@example.com",
+        name: "Chaitanya Behera",
+        email: "chaitanya@gmail.com",
         phone: "(+91) 9998887775",
         address: "123 Main Street, Angul, Odisha, India",
-        memberSince: "March 2023",
+        memberSince: "March 2025",
         aadhar: "XXXX XXXX 1234",
         license: "DL-1234567890",
-        profilePic: "assets/profile-placeholder.jpg",
+        profilePic: "../assets/profile-placeholder.jpg",
         transactions: [
           {
             date: "15 Mar 2025",

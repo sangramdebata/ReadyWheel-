@@ -40,7 +40,7 @@
                <!-- Navigation Links -->
               <ul class="nav__links" id="nav-links">
                 <li><a href="../index.php">Home</a></li>
-                <li><a href="../about.php">About</a></li>
+                <li><a href="../About/about.php">About</a></li>
                 <li><a href="../why-choose-us/choose.php">Why Choose Us</a></li>
                 <li><a href="rent.php">Rent</a></li>
                 <li><a href="http://127.0.0.1:5500/login.php?">Register</a></li>
@@ -134,12 +134,12 @@
                 <div class="filter-section mb-3">
                     <select class="form-select" id="brandFilter">
                         <option selected value="">Choose Brand</option>
-                        <option value="Maruti Suzuki">Maruti Suzuki</option>
+                        <option value="Maruti_Suzuki">Maruti Suzuki</option>
                         <option value="Tata">Tata</option>
                         <option value="Hundai">Hundai</option>
                         <option value="Audi">Audi</option>
                         <option value="Hero">Hero</option>
-                        <option value="Royal Enfield">Royal Enfield</option>
+                        <option value="Royal_Enfield">Royal Enfield</option>
                         <option value="Honda">Honda</option>
                     </select>
                 </div>
@@ -149,7 +149,7 @@
                         <option selected value="">Choose Vehicle</option>
                         <option value="Car">Car</option>
                         <option value="Bike">Bike</option>
-                        <option value="Two Wheeler">Two wheeler</option>
+                        <option value="Two_Wheeler">Two wheeler</option>
                         
                     </select>
                 </div>
@@ -158,7 +158,7 @@
                     <h5>Model</h5>
                     <div class="model-buttons d-flex flex-wrap gap-2">
                         <button class="btn model-btn" data-model="Family Car">Family Car</button>
-                        <button class="btn model-btn" data-model="Sport">SPORT</button>
+                        <button class="btn model-btn" data-model="Luxury">LUXURY</button>
                         <button class="btn model-btn" data-model="CITY BIKE">CITY BIKE</button>
                         <button class="btn model-btn" data-model="Offroad">OFFROAD</button>
                     </div>
@@ -167,11 +167,11 @@
                 <div class="filter-section mb-3">
                     <h5>Price Range</h5>
                     <div class="price-range">
-                        <input type="range" class="form-range" id="priceRange" min="1500" max="250000" step="100" value="250000">
+                        <input type="range" class="form-range" id="priceRange" min="50000" max="10000000" step="100" value="7000000">
                         <div class="price-labels d-flex justify-content-between">
-                            <span>$1,500</span>
-                            <span id="priceValue">$45,000</span>
-                            <span>$250,000</span>
+                            <span>50000</span>
+                            <span id="priceValue">600000</span>
+                            <span>10000000</span>
                         </div>
                     </div>
                 </div>
@@ -236,7 +236,7 @@
           <div class="footer__logo">
             <a href="#" class="logo">
               <!-- Footer image -->
-              <img src="assets/logo-white.png" alt="logo" />
+              <img src="../assets/logo-white.png" alt="logo" />
               <span>Car Rental</span>
             </a>
           </div>
