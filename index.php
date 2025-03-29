@@ -1,3 +1,7 @@
+<?php
+session_start();
+$is_logged_in = isset($_SESSION['is_logged_in']) && $_SESSION['is_logged_in'] === true;
+?>
 <!DOCTYPE html>
 <html lang="en">
   <head>
@@ -52,7 +56,7 @@
                   <a href="Profiles/profile.php">My Profile</a>
                   <a href="#">My Bookings</a>
                   <a href="Profiles/owner.php">List Your Car</a>
-                  <a href="#" id="logout-btn">Logout</a>
+                  <a href="logout.php" id="logout-btn">Logout</a>
               </div>
           </div>
           <button id="login-btn" class="btn">Login</button>
@@ -66,13 +70,13 @@
             <div class="popup">
                 <span class="close-btn" id="close-login">&times;</span>
                 <h2>Welcome Back</h2>
-                <form method="get" id="log_form">
+                <form action="login.php" method="post" id="log_form">
                     <label for="login-username">Username</label>
-                    <input type="text" id="login-username" placeholder="Enter your username" required>
+                    <input type="text" id="login-username" name="login-username" placeholder="Enter your username" required>
                     
                     <label for="login-password">Password</label>
                     <div class="password-container">
-                        <input type="password" id="login-password" placeholder="Enter your password" required>
+                        <input type="password" id="login-password" name="login-password" placeholder="Enter your password" required>
                         <span class="toggle-password" data-target="login-password">&#128065;</span>
                     </div>
 
@@ -89,7 +93,7 @@
             <div class="popup">
                 <span class="close-btn" id="close-register">&times;</span>
                 <h2>Create Account</h2>
-                <form method="post" id="reg_form">
+                <form action="register.php" method="post" id="reg_form">
                     <label for="reg-name">Full Name</label>
                     <input type="text" id="reg-name" name="FName" placeholder="Enter your full name" required>
 
@@ -101,7 +105,7 @@
 
                     <label for="reg-password">Password</label>
                     <div class="password-container">
-                        <input type="password" id="reg-password" placeholder="Create a password" required>
+                        <input type="password" id="reg-password" name="reg-password" placeholder="Create a password" required>
                         <span class="toggle-password" data-target="reg-password">&#128065;</span>
                     </div>
 

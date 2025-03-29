@@ -37,16 +37,16 @@
             </ul>
             <!-- Profile Icon (replaces Login Button when logged in) -->
             <div class="nav__btns">
-                <div class="profile-icon-container" id="profile-container">
+                <div class="profile-icon-container" id="profile-container" style="display: <?php echo $is_logged_in ? 'block' : 'none'; ?>">
                     <img src="../assets/profile-placeholder.jpg" alt="Profile" class="profile-icon" id="profile-icon">
                     <div class="profile-dropdown">
                         <a href="profile.php">My Profile</a>
                         <a href="#">My Bookings</a>
                         <a href="#">Settings</a>
-                        <a href="#" id="logout-btn">Logout</a>
+                        <a href="../logout.php" id="logout-btn">Logout</a>
                     </div>
                 </div>
-                <button id="login-btn" class="btn">Login</button>
+                <button id="login-btn" class="btn" style="display: <?php echo $is_logged_in ? 'none' : 'block'; ?>">Login</button>
             </div>
         </nav>
     </header>

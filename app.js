@@ -100,55 +100,41 @@ document.addEventListener('DOMContentLoaded', function() {
         loginForm.addEventListener('submit', function(e) {
             e.preventDefault();
             
-            // Get username and password
-            const username = document.getElementById('login-username').value;
-            const password = document.getElementById('login-password').value;
+            const formData = new FormData(this);
             
-            // In a real application, you would validate these credentials with a server
-            // For demo purposes, we'll use predefined user data
-            const userData = {
-                name: "Chaitanya Behera",
-                email: "chaitanya@gmail.com",
-                phone: "(+91) 9998887775",
-                address: "123 Main Street, Angul, Odisha, India",
-                memberSince: "March 2025",
-                aadhar: "XXXX XXXX 1234",
-                license: "DL-1234567890",
-                profilePic: "assets/profile-placeholder.jpg",
-                transactions: [
-                    {
-                        date: "15 Mar 2025",
-                        car: "Tata Nexon",
-                        duration: "3 days",
-                        amount: "₹4,500",
-                        status: "Completed",
-                    },
-                    {
-                        date: "28 Feb 2025",
-                        car: "Mahindra XUV300",
-                        duration: "1 day",
-                        amount: "₹1,800",
-                        status: "Completed",
-                    },
-                    {
-                        date: "10 Feb 2025",
-                        car: "Honda City",
-                        duration: "5 days",
-                        amount: "₹8,000",
-                        status: "Completed",
+            fetch('login.php', {
+                method: 'POST',
+                body: formData
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    // Store user data in localStorage
+                    localStorage.setItem('isLoggedIn', 'true');
+                    localStorage.setItem('userData', JSON.stringify(data.user));
+                    
+                    // Update UI
+                    const loginBtn = document.getElementById('login-btn');
+                    const profileContainer = document.getElementById('profile-container');
+                    
+                    if (loginBtn && profileContainer) {
+                        loginBtn.style.display = 'none';
+                        profileContainer.style.display = 'block';
                     }
-                ]
-            };
-            
-            // Save login status and user data
-            localStorage.setItem('isLoggedIn', 'true');
-            localStorage.setItem('userData', JSON.stringify(userData));
-            
-            // Close the popup
-            loginPopup.style.display = 'none';
-            
-            // Refresh the page to update UI
-            window.location.reload();
+                    
+                    // Close popup
+                    loginPopup.style.display = 'none';
+                    
+                    // Show success message
+                    alert('Login successful!');
+                } else {
+                    alert(data.message || 'Login failed');
+                }
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                alert('An error occurred during login');
+            });
         });
     }
     
@@ -158,10 +144,6 @@ document.addEventListener('DOMContentLoaded', function() {
         registerForm.addEventListener('submit', function(e) {
             e.preventDefault();
             
-            // Get form values
-            const fullName = document.getElementById('reg-name').value;
-            const mobile = document.getElementById('reg-mobile').value;
-            const email = document.getElementById('reg-email').value;
             const password = document.getElementById('reg-password').value;
             const confirmPassword = document.getElementById('reg-confirm-password').value;
             
@@ -171,28 +153,40 @@ document.addEventListener('DOMContentLoaded', function() {
                 return;
             }
             
-            // Create user data object
-            const userData = {
-                name: fullName,
-                email: email,
-                phone: mobile,
-                address: "123 Main Street, Angul, Odisha, India", // Default address
-                memberSince: new Date().toLocaleString('default', { month: 'long', year: 'numeric' }),
-                aadhar: "XXXX XXXX 1234", // Default value
-                license: "DL-1234567890", // Default value
-                profilePic: "assets/profile-placeholder.jpg",
-                transactions: [] // Empty transactions for new users
-            };
+            const formData = new FormData(this);
             
-            // Save login status and user data
-            localStorage.setItem('isLoggedIn', 'true');
-            localStorage.setItem('userData', JSON.stringify(userData));
-            
-            // Close the popup
-            registerPopup.style.display = 'none';
-            
-            // Refresh the page to update UI
-            window.location.reload();
+            fetch('register.php', {
+                method: 'POST',
+                body: formData
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    // Store user data in localStorage
+                    localStorage.setItem('isLoggedIn', 'true');
+                    
+                    // Update UI
+                    const loginBtn = document.getElementById('login-btn');
+                    const profileContainer = document.getElementById('profile-container');
+                    
+                    if (loginBtn && profileContainer) {
+                        loginBtn.style.display = 'none';
+                        profileContainer.style.display = 'block';
+                    }
+                    
+                    // Close popup
+                    registerPopup.style.display = 'none';
+                    
+                    // Show success message
+                    alert('Registration successful!');
+                } else {
+                    alert(data.message || 'Registration failed');
+                }
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                alert('An error occurred during registration');
+            });
         });
     }
     
