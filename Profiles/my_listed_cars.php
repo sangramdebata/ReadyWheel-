@@ -12,30 +12,19 @@ if (!isset($_SESSION['user_id'])) {
 error_reporting(E_ALL);
 ini_set('display_errors', 1);
 
-// Fetch user's listed cars with the first photo for each car
-$user_id = $_SESSION['user_id'];
-$sql = "SELECT v.*, 
+// Fetch all cars with owner information
+$sql = "SELECT v.*, u.fullname as owner_name, u.mobile as owner_mobile, u.email as owner_email,
         (SELECT photo_path FROM vehicle_photos WHERE vehicle_id = v.id LIMIT 1) as photo_path
         FROM vehicles v 
-        WHERE v.owner_id = ? 
+        JOIN users u ON v.owner_id = u.id 
         ORDER BY v.created_at DESC";
 
-$stmt = $conn->prepare($sql);
-if (!$stmt) {
-    die("Prepare failed: " . $conn->error);
-}
-
-$stmt->bind_param("i", $user_id);
-if (!$stmt->execute()) {
-    die("Execute failed: " . $stmt->error);
-}
-
-$result = $stmt->get_result();
+$result = $conn->query($sql);
 $cars = $result->fetch_all(MYSQLI_ASSOC);
 
 // Debug information
 if (empty($cars)) {
-    error_log("No cars found for user ID: " . $user_id);
+    error_log("No cars found in the system");
 }
 ?>
 
@@ -57,6 +46,8 @@ if (empty($cars)) {
             box-shadow: 0 2px 15px rgba(0,0,0,0.1);
             transition: transform 0.3s ease;
             margin-bottom: 20px;
+            cursor: pointer;
+            background: white;
         }
         .car-card:hover {
             transform: translateY(-5px);
@@ -73,6 +64,7 @@ if (empty($cars)) {
             font-size: 1.2rem;
             font-weight: 600;
             margin-bottom: 0.5rem;
+            color: #333;
         }
         .car-specs {
             color: #666;
@@ -90,6 +82,7 @@ if (empty($cars)) {
             padding: 0.25rem 0.5rem;
             border-radius: 20px;
             font-size: 0.8rem;
+            z-index: 1;
         }
         .status-available {
             background-color: #2ecc71;
@@ -106,6 +99,12 @@ if (empty($cars)) {
             justify-content: center;
             height: 200px;
             color: #6c757d;
+        }
+        a.text-decoration-none {
+            display: block;
+        }
+        a.text-decoration-none:hover {
+            text-decoration: none;
         }
     </style>
 </head>
@@ -127,7 +126,7 @@ if (empty($cars)) {
                 <li><a href="../index.php">Home</a></li>
                 <li><a href="../About/about.php">About</a></li>
                 <li><a href="../why-choose-us/choose.php">Why Choose Us</a></li>
-                <li><a href="../rent/rent.php">Rent</a></li>
+                <li><a href="rent.php">Rent</a></li>
                 <li><a href="owner.php">List Your Car</a></li>
             </ul>
             <div class="nav__btns">
@@ -160,39 +159,46 @@ if (empty($cars)) {
             <div class="row g-4">
                 <?php foreach ($cars as $car): ?>
                     <div class="col-md-6 col-lg-4">
-                        <div class="car-card">
-                            <div class="position-relative">
-                                <?php if (!empty($car['photo_path'])): ?>
-                                    <img src="<?php echo htmlspecialchars($car['photo_path']); ?>" 
-                                         alt="<?php echo htmlspecialchars($car['car_name']); ?>" 
-                                         class="car-image">
-                                <?php else: ?>
-                                    <div class="no-image">
-                                        <i class="ri-car-line" style="font-size: 3rem;"></i>
+                        <a href="../rent/car-details.php?id=<?php echo $car['id']; ?>" class="text-decoration-none">
+                            <div class="car-card">
+                                <div class="position-relative">
+                                    <?php if (!empty($car['photo_path'])): ?>
+                                        <img src="<?php echo htmlspecialchars($car['photo_path']); ?>" 
+                                             alt="<?php echo htmlspecialchars($car['car_name']); ?>" 
+                                             class="car-image">
+                                    <?php else: ?>
+                                        <div class="no-image">
+                                            <i class="ri-car-line" style="font-size: 3rem;"></i>
+                                        </div>
+                                    <?php endif; ?>
+                                    <span class="status-badge <?php echo $car['is_available'] ? 'status-available' : 'status-unavailable'; ?>">
+                                        <?php echo $car['is_available'] ? 'Available' : 'Unavailable'; ?>
+                                    </span>
+                                </div>
+                                <div class="car-details">
+                                    <h3 class="car-title"><?php echo htmlspecialchars($car['car_name']); ?></h3>
+                                    <div class="car-specs mb-2">
+                                        <span class="me-2"><i class="ri-gas-station-line"></i> <?php echo htmlspecialchars($car['fuel_type']); ?></span>
+                                        <span class="me-2"><i class="ri-user-line"></i> <?php echo htmlspecialchars($car['seating_capacity']); ?> seats</span>
+                                        <span><i class="ri-calendar-line"></i> <?php echo htmlspecialchars($car['year']); ?></span>
                                     </div>
-                                <?php endif; ?>
-                                <span class="status-badge <?php echo $car['is_available'] ? 'status-available' : 'status-unavailable'; ?>">
-                                    <?php echo $car['is_available'] ? 'Available' : 'Unavailable'; ?>
-                                </span>
-                            </div>
-                            <div class="car-details">
-                                <h3 class="car-title"><?php echo htmlspecialchars($car['car_name']); ?></h3>
-                                <div class="car-specs mb-2">
-                                    <span class="me-2"><i class="ri-gas-station-line"></i> <?php echo htmlspecialchars($car['fuel_type']); ?></span>
-                                    <span class="me-2"><i class="ri-user-line"></i> <?php echo htmlspecialchars($car['seating_capacity']); ?> seats</span>
-                                    <span><i class="ri-calendar-line"></i> <?php echo htmlspecialchars($car['year']); ?></span>
-                                </div>
-                                <div class="car-price mb-2">
-                                    ₹<?php echo number_format($car['price_per_day']); ?> / day
-                                </div>
-                                <div class="d-flex justify-content-between align-items-center">
-                                    <span class="text-muted"><i class="ri-map-pin-line"></i> <?php echo htmlspecialchars($car['location']); ?></span>
-                                    <a href="../rent/car-detail.php?id=<?php echo $car['id']; ?>" class="btn btn-outline-primary btn-sm">
-                                        View Details
-                                    </a>
+                                    <div class="car-price mb-2">
+                                        ₹<?php echo number_format($car['price_per_day']); ?> / day
+                                    </div>
+                                    <div class="d-flex justify-content-between align-items-center">
+                                        <span class="text-muted"><i class="ri-map-pin-line"></i> <?php echo htmlspecialchars($car['location']); ?></span>
+                                        <span class="btn btn-outline-primary btn-sm">
+                                            View Details
+                                        </span>
+                                    </div>
+                                    <div class="owner-info mt-2">
+                                        <small class="text-muted">
+                                            <i class="ri-user-line"></i> Listed by: <?php echo htmlspecialchars($car['owner_name']); ?>
+                                        </small>
+                                    </div>
                                 </div>
                             </div>
-                        </div>
+                        </a>
                     </div>
                 <?php endforeach; ?>
             </div>
