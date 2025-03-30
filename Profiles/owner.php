@@ -85,7 +85,7 @@ if (!isset($_SESSION['user_id'])) {
                             <h5 class="card-title">Owner Dashboard</h5>
                             <div class="list-group mt-4">
                                 <a href="#" class="list-group-item list-group-item-action active">List a New Car</a>
-                                <a href="#" class="list-group-item list-group-item-action">My Listed Cars</a>
+                                <a href="my_listed_cars.php" class="list-group-item list-group-item-action">My Listed Cars</a>
                                 <a href="#" class="list-group-item list-group-item-action">Booking Requests</a>
                                 <a href="#" class="list-group-item list-group-item-action">Earnings</a>
                                 <a href="#" class="list-group-item list-group-item-action">Settings</a>
