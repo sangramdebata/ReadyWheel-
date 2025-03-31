@@ -56,7 +56,11 @@ $total_amount = $days * $car['price_per_day'];
     <link rel="shortcut icon" href="favicon.ico">
     <style>
         body {
-            background-color: #f6f9fc;
+                background: linear-gradient(
+                to bottom,
+                rgba(67, 51, 237, 0.4),
+                rgba(165, 150, 247, 0.1)
+            );
             min-height: 100vh;
             padding: 40px 20px;
             font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
@@ -113,7 +117,7 @@ $total_amount = $days * $car['price_per_day'];
             text-align: right;
         }
         .total-amount {
-            background: linear-gradient(135deg, #4158d0, #c850c0);
+            background: linear-gradient(135deg, #8a79f0, #2e2a40);
             color: white;
             padding: 25px;
             border-radius: 16px;
@@ -145,7 +149,7 @@ $total_amount = $days * $car['price_per_day'];
             z-index: 2;
         }
         .btn-pay {
-            background: linear-gradient(135deg, #4158d0, #c850c0);
+            background: linear-gradient(135deg, #8a79f0, #2e2a40);
             border: none;
             padding: 16px 30px;
             font-size: 16px;

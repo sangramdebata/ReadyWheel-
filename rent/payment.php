@@ -37,7 +37,11 @@ $qr_data = "upi://pay?pa=readywheel@upi&pn=ReadyWheel&am=" . $total_amount . "&c
     <script src="https://cdn.rawgit.com/davidshimjs/qrcodejs/gh-pages/qrcode.min.js"></script>
     <style>
         body {
-            background-color: #f6f9fc;
+            background: linear-gradient(
+                to bottom,
+                rgba(67, 51, 237, 0.4),
+                rgba(165, 150, 247, 0.1)
+            );
             min-height: 100vh;
             display: flex;
             align-items: center;
@@ -55,7 +59,7 @@ $qr_data = "upi://pay?pa=readywheel@upi&pn=ReadyWheel&am=" . $total_amount . "&c
             backdrop-filter: blur(10px);
         }
         .amount-display {
-            background: linear-gradient(135deg, #4158d0, #c850c0);
+            background: linear-gradient(135deg, #8a79f0, #2e2a40);
             color: white;
             padding: 25px;
             border-radius: 18px;
@@ -164,7 +168,7 @@ $qr_data = "upi://pay?pa=readywheel@upi&pn=ReadyWheel&am=" . $total_amount . "&c
             margin-top: 15px;
         }
         .btn-pay {
-            background: linear-gradient(135deg, #4158d0, #c850c0);
+            background: linear-gradient(135deg, #8a79f0, #2e2a40);
             border: none;
             padding: 16px 30px;
             font-size: 16px;
@@ -275,19 +279,19 @@ $qr_data = "upi://pay?pa=readywheel@upi&pn=ReadyWheel&am=" . $total_amount . "&c
             <h5>Select Payment Gateway</h5>
             <div class="gateway-options">
                 <div class="gateway-option" onclick="selectGateway('razorpay')">
-                    <img src="../assets/razorpay.png" alt="Razorpay">
+                    <img src="../assets/Razorpay_logo.png" alt="Razorpay">
                     <p>Razorpay</p>
                 </div>
                 <div class="gateway-option" onclick="selectGateway('paytm')">
-                    <img src="../assets/paytm.png" alt="Paytm">
+                    <img src="../assets/Paytm_logo.jpg" alt="Paytm">
                     <p>Paytm</p>
                 </div>
                 <div class="gateway-option" onclick="selectGateway('sbipay')">
-                    <img src="../assets/sbi.png" alt="SBI ePay">
+                    <img src="../assets/SBI-logo.svg.png" alt="SBI ePay">
                     <p>SBI ePay</p>
                 </div>
                 <div class="gateway-option" onclick="selectGateway('phonepe')">
-                    <img src="../assets/phonepe.png" alt="PhonePe">
+                    <img src="../assets/Phone-pay.png" alt="PhonePe">
                     <p>PhonePe (You)</p>
                 </div>
             </div>
@@ -300,12 +304,12 @@ $qr_data = "upi://pay?pa=readywheel@upi&pn=ReadyWheel&am=" . $total_amount . "&c
                 <p>Google Pay, PhonePe, etc.</p>
             </div>
             <div class="payment-method" onclick="selectPayment('card')">
-                <img src="../assets/card.png" alt="Card">
+                <img src="../assets/debit.png" alt="Card">
                 <h6>Card</h6>
                 <p>Credit/Debit Card</p>
             </div>
             <div class="payment-method" onclick="selectPayment('netbanking')">
-                <img src="../assets/bank.png" alt="Net Banking">
+                <img src="../assets/net.jpg" alt="Net Banking">
                 <h6>Net Banking</h6>
                 <p>All Banks</p>
             </div>
