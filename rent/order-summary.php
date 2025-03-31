@@ -52,6 +52,8 @@ $total_amount = $days * $car['price_per_day'];
     <title>Order Summary - ReadyWheel</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/npm/remixicon@4.5.0/fonts/remixicon.css" rel="stylesheet"/>
+    <link rel="icon" type="image/png" href="../assets/logo-white.png">
+    <link rel="shortcut icon" href="favicon.ico">
     <style>
         body {
             background-color: #f6f9fc;

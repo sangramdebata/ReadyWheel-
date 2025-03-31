@@ -12,6 +12,8 @@ if (!isset($_SESSION['user_id'])) {
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link href="https://cdn.jsdelivr.net/npm/remixicon@4.5.0/fonts/remixicon.css" rel="stylesheet" />
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" />
+    <link rel="icon" type="image/png" href="../assets/logo-white.png">
+    <link rel="shortcut icon" href="favicon.ico"> 
     <link rel="stylesheet" href="../style.css" />
     <link rel="stylesheet" href="owner.css" />
     <title>List Your Car - Ready Wheel</title>
@@ -85,7 +87,7 @@ if (!isset($_SESSION['user_id'])) {
                             <h5 class="card-title">Owner Dashboard</h5>
                             <div class="list-group mt-4">
                                 <a href="#" class="list-group-item list-group-item-action active">List a New Car</a>
-                                <a href="my_listed_cars.php" class="list-group-item list-group-item-action">My Listed Cars</a>
+                                <a href="my_listed_cars.php" class="list-group-item list-group-item-action">Cars for Rent</a>
                                 <a href="#" class="list-group-item list-group-item-action">Booking Requests</a>
                                 <a href="#" class="list-group-item list-group-item-action">Earnings</a>
                                 <a href="#" class="list-group-item list-group-item-action">Settings</a>
