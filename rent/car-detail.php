@@ -1,3 +1,37 @@
+<?php
+// Database connection
+$host = 'localhost';
+$dbname = 'readywheel_db';
+$username = 'root';
+$password = '';
+
+try {
+    $pdo = new PDO("mysql:host=$host;dbname=$dbname", $username, $password);
+    $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+
+    // Get vehicle ID from URL parameter
+    $vehicle_id = isset($_GET['id']) ? (int)$_GET['id'] : 0;
+
+    if ($vehicle_id > 0) {
+        // Fetch vehicle details
+        $stmt = $pdo->prepare("SELECT * FROM listed_vehicles WHERE id = ?");
+        $stmt->execute([$vehicle_id]);
+        $vehicle = $stmt->fetch(PDO::FETCH_ASSOC);
+
+        if ($vehicle) {
+            // Fetch vehicle images
+            $stmt = $pdo->prepare("SELECT image_path FROM vehicle_images WHERE vehicle_id = ?");
+            $stmt->execute([$vehicle_id]);
+            $images = $stmt->fetchAll(PDO::FETCH_COLUMN);
+            $vehicle['images'] = $images;
+        }
+    }
+
+} catch(PDOException $e) {
+    echo "Connection failed: " . $e->getMessage();
+    exit;
+}
+?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -116,13 +150,18 @@
 
     <!-- Main Content -->
     <main class="container my-5">
+        <?php if (isset($vehicle) && $vehicle): ?>
         <div class="row">
             <!-- Car Showcase Section -->
             <div class="col-lg-7">
                 <div class="car-showcase bg-light rounded-3 p-3 mb-3">
                     <div id="carCarousel" class="carousel slide" data-bs-ride="carousel">
                         <div class="carousel-inner" id="carouselInner">
-                            <!-- Carousel items will be dynamically inserted here -->
+                            <?php foreach($vehicle['images'] as $index => $image): ?>
+                            <div class="carousel-item <?php echo $index === 0 ? 'active' : ''; ?>">
+                                <img src="<?php echo htmlspecialchars($image); ?>" class="d-block w-100" alt="<?php echo htmlspecialchars($vehicle['name']); ?>">
+                            </div>
+                            <?php endforeach; ?>
                         </div>
                         <button class="carousel-control-prev" type="button" data-bs-target="#carCarousel" data-bs-slide="prev">
                             <span class="carousel-control-prev-icon" aria-hidden="true"></span>
@@ -134,22 +173,52 @@
                         </button>
                     </div>
                     <div class="row mt-3" id="thumbnailContainer">
-                        <!-- Thumbnails will be dynamically inserted here -->
+                        <?php foreach($vehicle['images'] as $index => $image): ?>
+                        <div class="col-3 mb-3">
+                            <img src="<?php echo htmlspecialchars($image); ?>" 
+                                 class="img-thumbnail" 
+                                 alt="Thumbnail"
+                                 onclick="$('#carCarousel').carousel(<?php echo $index; ?>)">
+                        </div>
+                        <?php endforeach; ?>
                     </div>
                 </div>
 
                 <!-- Car Details -->
                 <div class="car-details mt-5">
-                    <h2 class="fw-bold" id="carName">Loading...</h2>
-                    <p class="text-muted" id="carDescription">Loading car description...</p>
+                    <h2 class="fw-bold"><?php echo htmlspecialchars($vehicle['name']); ?></h2>
+                    <p class="text-muted"><?php echo htmlspecialchars($vehicle['description']); ?></p>
 
                     <!-- Specifications -->
                     <div class="specifications mt-5">
                         <h3 class="fw-bold mb-4">Specifications</h3>
                         <div class="table-responsive">
                             <table class="table table-borderless">
-                                <tbody id="specificationsTable">
-                                    <!-- Specifications will be dynamically inserted here -->
+                                <tbody>
+                                    <tr>
+                                        <td><i class="fas fa-car"></i> Brand</td>
+                                        <td><?php echo htmlspecialchars($vehicle['brand']); ?></td>
+                                        <td><i class="fas fa-calendar"></i> Year</td>
+                                        <td><?php echo htmlspecialchars($vehicle['year']); ?></td>
+                                    </tr>
+                                    <tr>
+                                        <td><i class="fas fa-cog"></i> Transmission</td>
+                                        <td><?php echo htmlspecialchars($vehicle['transmission']); ?></td>
+                                        <td><i class="fas fa-gas-pump"></i> Fuel Type</td>
+                                        <td><?php echo htmlspecialchars($vehicle['fuel_type']); ?></td>
+                                    </tr>
+                                    <tr>
+                                        <td><i class="fas fa-users"></i> Seating Capacity</td>
+                                        <td><?php echo htmlspecialchars($vehicle['passenger_capacity']); ?></td>
+                                        <td><i class="fas fa-palette"></i> Color</td>
+                                        <td><?php echo htmlspecialchars($vehicle['color']); ?></td>
+                                    </tr>
+                                    <tr>
+                                        <td><i class="fas fa-tachometer-alt"></i> Mileage</td>
+                                        <td><?php echo htmlspecialchars($vehicle['mileage']); ?> km/l</td>
+                                        <td><i class="fas fa-engine"></i> Engine</td>
+                                        <td><?php echo htmlspecialchars($vehicle['engine']); ?></td>
+                                    </tr>
                                 </tbody>
                             </table>
                         </div>
@@ -159,73 +228,83 @@
 
             <!-- Booking Form Section -->
             <div class="col-lg-5">
-                <div class="booking-form">
+                <div class="booking-form bg-light p-4 rounded-3">
                     <div class="d-flex justify-content-between align-items-center mb-3">
-                        <h3 class="fw-bold mb-0" id="bookingCarName">Loading...</h3>
+                        <h3 class="fw-bold mb-0"><?php echo htmlspecialchars($vehicle['name']); ?></h3>
                         <button class="btn btn-outline-secondary rounded-circle" id="favoriteBtn">
                             <i class="far fa-heart"></i>
                         </button>
                     </div>
                     
                     <div class="mb-4">
-                        <p class="text-primary fw-bold fs-4 mb-0" id="bookingPrice">Loading...</p>
+                        <p class="text-primary fw-bold fs-4 mb-0">₹<?php echo number_format($vehicle['price'], 2); ?></p>
                     </div>
 
-                    <!-- Location -->
-                    <form action="order-summery.php" method="GET" id="bookingForm"></form>
-                    <div class="mb-4">
-                        <label class="form-label d-flex align-items-center">
-                            <i class="fas fa-map-marker-alt me-2"></i> Location
-                        </label>
-                        <input type="text" class="form-control" placeholder="Location" id="locationInput">
-                    </div>
+                    <form action="booking-process.php" method="POST" id="bookingForm">
+                        <input type="hidden" name="vehicle_id" value="<?php echo $vehicle['id']; ?>">
+                        <input type="hidden" name="price_per_day" value="<?php echo $vehicle['price']; ?>">
 
-                    <!-- Pick-Up -->
-                    <div class="mb-4">
-                        <label class="form-label d-flex align-items-center">
-                            <i class="far fa-calendar-alt me-2"></i> Pick-Up
-                        </label>
-                        <div class="row">
-                            <div class="col-7">
-                                <input type="date" class="form-control" id="pickupDate">
-                            </div>
-                            <div class="col-5">
-                                <input type="time" class="form-control" id="pickupTime">
-                            </div>
+                        <!-- Location -->
+                        <div class="mb-4">
+                            <label class="form-label d-flex align-items-center">
+                                <i class="fas fa-map-marker-alt me-2"></i> Location
+                            </label>
+                            <input type="text" name="location" class="form-control" required>
                         </div>
-                    </div>
 
-                    <!-- Drop-Off -->
-                    <div class="mb-4">
-                        <label class="form-label d-flex align-items-center">
-                            <i class="far fa-calendar-alt me-2"></i> Drop-Off
-                        </label>
-                        <div class="row">
-                            <div class="col-7">
-                                <input type="date" class="form-control" id="dropoffDate">
-                            </div>
-                            <div class="col-5">
-                                <input type="time" class="form-control" id="dropoffTime">
+                        <!-- Pick-Up -->
+                        <div class="mb-4">
+                            <label class="form-label d-flex align-items-center">
+                                <i class="far fa-calendar-alt me-2"></i> Pick-Up
+                            </label>
+                            <div class="row">
+                                <div class="col-7">
+                                    <input type="date" name="pickup_date" class="form-control" required>
+                                </div>
+                                <div class="col-5">
+                                    <input type="time" name="pickup_time" class="form-control" required>
+                                </div>
                             </div>
                         </div>
-                    </div>
 
-                    <!-- Duration and Price -->
-                    <div class="duration-price d-flex justify-content-between align-items-center mb-4">
-                        <div>
-                            <p class="mb-0 fw-bold">Duration</p>
-                            <p class="mb-0 text-muted" id="durationText">Calculate duration</p>
+                        <!-- Drop-Off -->
+                        <div class="mb-4">
+                            <label class="form-label d-flex align-items-center">
+                                <i class="far fa-calendar-alt me-2"></i> Drop-Off
+                            </label>
+                            <div class="row">
+                                <div class="col-7">
+                                    <input type="date" name="dropoff_date" class="form-control" required>
+                                </div>
+                                <div class="col-5">
+                                    <input type="time" name="dropoff_time" class="form-control" required>
+                                </div>
+                            </div>
                         </div>
-                        <div>
-                            <p class="mb-0 fw-bold fs-4" id="totalPrice">$0.00</p>
-                        </div>
-                    </div>
 
-                    <!-- Book Now Button -->
-                    <button class="btn btn-primary w-100 py-3" id="bookNowBtn">BOOK NOW</button>
+                        <!-- Duration and Price -->
+                        <div class="duration-price d-flex justify-content-between align-items-center mb-4">
+                            <div>
+                                <p class="mb-0 fw-bold">Duration</p>
+                                <p class="mb-0 text-muted" id="durationText">Calculate duration</p>
+                            </div>
+                            <div>
+                                <p class="mb-0 fw-bold fs-4" id="totalPrice">₹0.00</p>
+                            </div>
+                        </div>
+
+                        <!-- Book Now Button -->
+                        <button type="submit" class="btn btn-primary w-100 py-3">BOOK NOW</button>
+                    </form>
                 </div>
             </div>
         </div>
+        <?php else: ?>
+        <div class="alert alert-warning">
+            Vehicle not found or invalid vehicle ID.
+            <a href="rent.php" class="alert-link">Return to vehicle listing</a>
+        </div>
+        <?php endif; ?>
     </main>
  <!-- footer starts -->
     <footer class="footer">
@@ -330,32 +409,50 @@
 
     <!-- Bootstrap JS -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-    <!-- Custom JS -->
-    <script src="car-detail.js"></script>
-    <script src="../app.js"></script>
-
+    <!-- Custom JS for booking calculations -->
     <script>
-        // Calculate cost function
-        function calculateCost() {
-            const pickupDate = new Date(document.getElementById('pickupDate').value);
-            const dropoffDate = new Date(document.getElementById('dropoffDate').value);
-            const pricePerDay = <?php echo $car['price_per_day']; ?>;
+        document.addEventListener('DOMContentLoaded', function() {
+            const form = document.getElementById('bookingForm');
+            const pricePerDay = parseFloat(form.querySelector('[name="price_per_day"]').value);
+            const durationText = document.getElementById('durationText');
+            const totalPrice = document.getElementById('totalPrice');
             
-            // Calculate number of days
-            const diffTime = Math.abs(dropoffDate - pickupDate);
-            const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24)) + 1;
-            
-            // Update display
-            document.getElementById('numberOfDays').textContent = diffDays;
-            document.getElementById('totalPrice').textContent = `₹${(diffDays * pricePerDay).toLocaleString()}`;
-        }
+            function calculateDuration() {
+                const pickupDate = form.querySelector('[name="pickup_date"]').value;
+                const dropoffDate = form.querySelector('[name="dropoff_date"]').value;
+                
+                if (pickupDate && dropoffDate) {
+                    const start = new Date(pickupDate);
+                    const end = new Date(dropoffDate);
+                    const days = Math.ceil((end - start) / (1000 * 60 * 60 * 24));
+                    
+                    if (days > 0) {
+                        const total = days * pricePerDay;
+                        durationText.textContent = `${days} day${days > 1 ? 's' : ''}`;
+                        totalPrice.textContent = `₹${total.toFixed(2)}`;
+                    } else {
+                        durationText.textContent = 'Invalid dates';
+                        totalPrice.textContent = '₹0.00';
+                    }
+                }
+            }
 
-        // Add event listeners for real-time cost calculation
-        document.getElementById('pickupDate').addEventListener('change', calculateCost);
-        document.getElementById('dropoffDate').addEventListener('change', calculateCost);
+            // Add event listeners for date changes
+            form.querySelector('[name="pickup_date"]').addEventListener('change', calculateDuration);
+            form.querySelector('[name="dropoff_date"]').addEventListener('change', calculateDuration);
 
-        // Calculate cost on page load
-        document.addEventListener('DOMContentLoaded', calculateCost);
+            // Handle form submission
+            form.addEventListener('submit', function(e) {
+                const pickupDate = new Date(form.querySelector('[name="pickup_date"]').value);
+                const dropoffDate = new Date(form.querySelector('[name="dropoff_date"]').value);
+                
+                if (pickupDate >= dropoffDate) {
+                    e.preventDefault();
+                    alert('Drop-off date must be after pick-up date');
+                }
+            });
+        });
     </script>
 </body>
+</html> 
 </html> 

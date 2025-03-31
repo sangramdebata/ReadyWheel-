@@ -1,9 +1,44 @@
+<?php
+// Database connection
+$host = 'localhost';
+$dbname = 'readywheel_db';
+$username = 'root';
+$password = '';
+
+try {
+    $pdo = new PDO("mysql:host=$host;dbname=$dbname", $username, $password);
+    $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+
+    // Fetch all vehicles with their images
+    $stmt = $pdo->query("SELECT * FROM listed_vehicles");
+    $vehicles = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+    // Get images for each vehicle
+    foreach ($vehicles as &$vehicle) {
+        $stmt = $pdo->prepare("SELECT image_path FROM vehicle_images WHERE vehicle_id = ?");
+        $stmt->execute([$vehicle['id']]);
+        $images = $stmt->fetchAll(PDO::FETCH_COLUMN);
+        $vehicle['images'] = $images;
+    }
+
+    // Get unique values for filters
+    $brands = array_unique(array_column($vehicles, 'brand'));
+    $fuelTypes = array_unique(array_column($vehicles, 'fuel_type'));
+    $colors = array_unique(array_column($vehicles, 'color'));
+    $categories = array_unique(array_column($vehicles, 'category'));
+    $models = array_unique(array_column($vehicles, 'model'));
+
+} catch(PDOException $e) {
+    echo "Connection failed: " . $e->getMessage();
+    exit;
+}
+?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Drivee - Luxury Car Rentals</title>
+    <title>ReadyWheel - Vehicle Rentals</title>
     <!-- Bootstrap CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <!-- Font Awesome -->
@@ -12,7 +47,6 @@
     <link rel="stylesheet" href="styles.css">
     <link href="https://cdn.jsdelivr.net/npm/remixicon@4.5.0/fonts/remixicon.css" rel="stylesheet"/>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css"/>
-    
 </head>
 <body>
     <!-- header -->
@@ -49,7 +83,7 @@
               <div class="nav__btns">
                 <button id="login-btn" class="btn">Login</button>
               </div>
-gir            </nav>
+            </nav>
       
             <!-- Login Pop up Start-->
       
@@ -121,106 +155,80 @@ gir            </nav>
             <div class="col-lg-3 filter-sidebar py-4">
                 <div class="filter-header">
                     <h2 class="fw-bold">FILTER</h2>
-                    <p class="text-muted">Search your car</p>
+                    <p class="text-muted">Search your vehicle</p>
                 </div>
 
                 <div class="search-box mb-4">
                     <div class="input-group">
-                        <input type="text" class="form-control" id="searchInput" placeholder="Search here...">
+                        <input type="text" class="form-control" id="search-input" placeholder="Search here...">
                         <span class="input-group-text"><i class="fas fa-search"></i></span>
                     </div>
                 </div>
 
                 <div class="filter-section mb-3">
-                    <select class="form-select" id="brandFilter">
-                        <option selected value="">Choose Brand</option>
-                        <option value="Maruti_Suzuki">Maruti Suzuki</option>
-                        <option value="Tata">Tata</option>
-                        <option value="Hundai">Hundai</option>
-                        <option value="Audi">Audi</option>
-                        <option value="Hero">Hero</option>
-                        <option value="Royal_Enfield">Royal Enfield</option>
-                        <option value="Honda">Honda</option>
+                    <select class="form-select" id="category-filter">
+                        <option value="all">All Categories</option>
+                        <?php foreach($categories as $category): ?>
+                            <option value="<?php echo htmlspecialchars($category); ?>"><?php echo htmlspecialchars($category); ?></option>
+                        <?php endforeach; ?>
                     </select>
                 </div>
 
                 <div class="filter-section mb-3">
-                    <select class="form-select" id="classFilter">
-                        <option selected value="">Choose Vehicle</option>
-                        <option value="Car">Car</option>
-                        <option value="Bike">Bike</option>
-                        <option value="Two_Wheeler">Two wheeler</option>
-                        
+                    <select class="form-select" id="brand-filter">
+                        <option value="all">All Brands</option>
+                        <?php foreach($brands as $brand): ?>
+                            <option value="<?php echo htmlspecialchars($brand); ?>"><?php echo htmlspecialchars($brand); ?></option>
+                        <?php endforeach; ?>
                     </select>
                 </div>
 
                 <div class="filter-section mb-3">
                     <h5>Model</h5>
                     <div class="model-buttons d-flex flex-wrap gap-2">
-                        <button class="btn model-btn" data-model="Family Car">Family Car</button>
-                        <button class="btn model-btn" data-model="Luxury">LUXURY</button>
-                        <button class="btn model-btn" data-model="CITY BIKE">CITY BIKE</button>
-                        <button class="btn model-btn" data-model="Offroad">OFFROAD</button>
+                        <?php foreach($models as $model): ?>
+                            <button class="btn model-btn" data-model="<?php echo htmlspecialchars($model); ?>"><?php echo htmlspecialchars($model); ?></button>
+                        <?php endforeach; ?>
                     </div>
                 </div>
 
                 <div class="filter-section mb-3">
                     <h5>Price Range</h5>
-                    <div class="price-range">
-                        <input type="range" class="form-range" id="priceRange" min="50000" max="10000000" step="100" value="7000000">
-                        <div class="price-labels d-flex justify-content-between">
-                            <span>50000</span>
-                            <span id="priceValue">600000</span>
-                            <span>10000000</span>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="filter-section mb-3">
-                    <select class="form-select" id="fuelFilter">
-                        <option selected value="">Any Fuel</option>
-                        <option value="Electric">Electric</option>
-                        <option value="Petrol">Petrol</option>
-                        <option value="Diesel">Diesel</option>
+                    <select class="form-select" id="price-filter">
+                        <option value="all">All Prices</option>
+                        <option value="under-5l">Under 5 Lakhs</option>
+                        <option value="5l-10l">5-10 Lakhs</option>
+                        <option value="10l-20l">10-20 Lakhs</option>
+                        <option value="over-20l">Over 20 Lakhs</option>
                     </select>
                 </div>
 
                 <div class="filter-section mb-3">
-                    <select class="form-select" id="colorFilter">
-                        <option selected value="">Colour</option>
-                        <option value="Black">Black</option>
-                        <option value="White">White</option>
-                        <option value="Red">Red</option>
-                        <option value="Blue">Blue</option>
+                    <select class="form-select" id="fuel-filter">
+                        <option value="all">All Fuel Types</option>
+                        <?php foreach($fuelTypes as $fuelType): ?>
+                            <option value="<?php echo htmlspecialchars($fuelType); ?>"><?php echo htmlspecialchars($fuelType); ?></option>
+                        <?php endforeach; ?>
                     </select>
                 </div>
 
-                <div class="filter-section mb-4">
-                    <select class="form-select" id="transmissionFilter">
-                        <option selected value="">Transmission</option>
+                <div class="filter-section mb-3">
+                    <select class="form-select" id="transmission-filter">
+                        <option value="all">All Transmissions</option>
                         <option value="Automatic">Automatic</option>
                         <option value="Manual">Manual</option>
                     </select>
                 </div>
-
-                <button class="btn find-cars-btn w-100" id="applyFilters">
-                    FIND CARS <i class="fas fa-arrow-right ms-2"></i>
-                </button>
             </div>
 
             <!-- Main Content -->
             <div class="col-lg-9 main-content py-4">
                 <div class="content-header d-flex justify-content-between align-items-center mb-4">
-                    <p class="mb-0" id="resultsCount">Showing 8 cars from 40</p>
-                    <select class="form-select sort-select" id="sortSelect">
-                        <option selected value="newest">Newest</option>
-                        <option value="price-asc">Price: Low to High</option>
-                        <option value="price-desc">Price: High to Low</option>
-                    </select>
+                    <p class="mb-0" id="results-count">Loading vehicles...</p>
                 </div>
 
-                <div class="row car-grid" id="carGrid">
-                    <!-- Car cards will be dynamically inserted here -->
+                <div class="row car-grid" id="car-grid">
+                    <!-- Vehicle cards will be dynamically inserted here -->
                 </div>
             </div>
         </div>
@@ -329,6 +337,14 @@ gir            </nav>
     
     <!-- Bootstrap JS -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    
+    <!-- Initialize PHP data for JavaScript -->
+    <script>
+        // Initialize the vehicles data from PHP
+        const initialVehicles = <?php echo json_encode($vehicles, JSON_HEX_TAG | JSON_HEX_APOS | JSON_HEX_QUOT | JSON_HEX_AMP); ?>;
+        console.log('Loaded vehicles:', initialVehicles); // Debug log
+    </script>
+
     <!-- Custom JS -->
     <script src="script.js"></script>
     <script src="../app.js"></script>
