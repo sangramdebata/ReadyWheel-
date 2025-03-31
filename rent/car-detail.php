@@ -167,11 +167,12 @@
                         </button>
                     </div>
                     
-                    <div class="mb-3">
+                    <div class="mb-4">
                         <p class="text-primary fw-bold fs-4 mb-0" id="bookingPrice">Loading...</p>
                     </div>
 
                     <!-- Location -->
+                    <form action="order-summery.php" method="GET" id="bookingForm"></form>
                     <div class="mb-4">
                         <label class="form-label d-flex align-items-center">
                             <i class="fas fa-map-marker-alt me-2"></i> Location
@@ -331,5 +332,29 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
     <!-- Custom JS -->
     <script src="car-detail.js"></script>
+
+    <script>
+        // Calculate cost function
+        function calculateCost() {
+            const pickupDate = new Date(document.getElementById('pickupDate').value);
+            const dropoffDate = new Date(document.getElementById('dropoffDate').value);
+            const pricePerDay = <?php echo $car['price_per_day']; ?>;
+            
+            // Calculate number of days
+            const diffTime = Math.abs(dropoffDate - pickupDate);
+            const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24)) + 1;
+            
+            // Update display
+            document.getElementById('numberOfDays').textContent = diffDays;
+            document.getElementById('totalPrice').textContent = `₹${(diffDays * pricePerDay).toLocaleString()}`;
+        }
+
+        // Add event listeners for real-time cost calculation
+        document.getElementById('pickupDate').addEventListener('change', calculateCost);
+        document.getElementById('dropoffDate').addEventListener('change', calculateCost);
+
+        // Calculate cost on page load
+        document.addEventListener('DOMContentLoaded', calculateCost);
+    </script>
 </body>
 </html> 

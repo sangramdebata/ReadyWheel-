@@ -204,20 +204,21 @@ $photos = $photos_result->fetch_all(MYSQLI_ASSOC);
                     <div class="price mb-4">
                         <h4>₹<?php echo number_format($car['price_per_day']); ?> <small>/ day</small></h4>
                     </div>
-                    <form id="bookingForm" onsubmit="return calculateCost(event)">
+                    <form action="order-summary.php" method="GET" id="bookingForm">
+                        <input type="hidden" name="car_id" value="<?php echo $car_id; ?>">
                         <div class="mb-3">
                             <label for="pickupLocation" class="form-label">Pickup Location</label>
-                            <input type="text" class="form-control" id="pickupLocation" required>
+                            <input type="text" class="form-control" id="pickupLocation" name="pickup_location" required>
                         </div>
                         <div class="mb-3">
                             <label for="pickupDate" class="form-label">Pickup Date</label>
-                            <input type="date" class="form-control" id="pickupDate" required 
+                            <input type="date" class="form-control" id="pickupDate" name="pickup_date" required 
                                    min="<?php echo date('Y-m-d'); ?>" 
                                    value="<?php echo date('Y-m-d'); ?>">
                         </div>
                         <div class="mb-3">
                             <label for="dropoffDate" class="form-label">Drop-off Date</label>
-                            <input type="date" class="form-control" id="dropoffDate" required 
+                            <input type="date" class="form-control" id="dropoffDate" name="dropoff_date" required 
                                    min="<?php echo date('Y-m-d'); ?>" 
                                    value="<?php echo date('Y-m-d', strtotime('+1 day')); ?>">
                         </div>
@@ -289,9 +290,7 @@ $photos = $photos_result->fetch_all(MYSQLI_ASSOC);
         });
 
         // Calculate cost function
-        function calculateCost(event) {
-            if (event) event.preventDefault();
-            
+        function calculateCost() {
             const pickupDate = new Date(document.getElementById('pickupDate').value);
             const dropoffDate = new Date(document.getElementById('dropoffDate').value);
             const pricePerDay = <?php echo $car['price_per_day']; ?>;
@@ -303,37 +302,6 @@ $photos = $photos_result->fetch_all(MYSQLI_ASSOC);
             // Update display
             document.getElementById('numberOfDays').textContent = diffDays;
             document.getElementById('totalPrice').textContent = `₹${(diffDays * pricePerDay).toLocaleString()}`;
-            
-            // Store values for booking
-            window.bookingDetails = {
-                pickupLocation: document.getElementById('pickupLocation').value,
-                pickupDate: document.getElementById('pickupDate').value,
-                dropoffDate: document.getElementById('dropoffDate').value,
-                totalDays: diffDays,
-                totalPrice: diffDays * pricePerDay
-            };
-            
-            if (event) {
-                handleBooking();
-            }
-            return false;
-        }
-
-        // Handle booking
-        function handleBooking() {
-            <?php if (isset($_SESSION['user_id'])): ?>
-                if (window.bookingDetails) {
-                    // TODO: Implement booking functionality with window.bookingDetails
-                    alert('Booking details:\n' + 
-                          'Pickup Location: ' + window.bookingDetails.pickupLocation + '\n' +
-                          'Pickup Date: ' + window.bookingDetails.pickupDate + '\n' +
-                          'Drop-off Date: ' + window.bookingDetails.dropoffDate + '\n' +
-                          'Total Days: ' + window.bookingDetails.totalDays + '\n' +
-                          'Total Price: ₹' + window.bookingDetails.totalPrice.toLocaleString());
-                }
-            <?php else: ?>
-                window.location.href = '../login.php';
-            <?php endif; ?>
         }
 
         // Add event listeners for real-time cost calculation
@@ -341,9 +309,7 @@ $photos = $photos_result->fetch_all(MYSQLI_ASSOC);
         document.getElementById('dropoffDate').addEventListener('change', calculateCost);
 
         // Calculate cost on page load
-        document.addEventListener('DOMContentLoaded', function() {
-            calculateCost();
-        });
+        document.addEventListener('DOMContentLoaded', calculateCost);
     </script>
 </body>
 </html> 
