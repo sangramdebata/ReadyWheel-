@@ -58,13 +58,13 @@
                   <div class="popup">
                       <span class="close-btn" id="close-login">&times;</span>
                       <h2>Welcome Back</h2>
-                      <form method="get" id="log_form">
+                      <form method="post" id="log_form">
                           <label for="login-username">Username</label>
-                          <input type="text" id="login-username" placeholder="Enter your username" required>
+                          <input type="text" id="login-username" name="login-username" placeholder="Enter your username" required>
                           
                           <label for="login-password">Password</label>
                           <div class="password-container">
-                              <input type="password" id="login-password" placeholder="Enter your password" required>
+                              <input type="password" id="login-password" name="login-password" placeholder="Enter your password" required>
                               <span class="toggle-password" data-target="login-password">&#128065;</span>
                           </div>
       
@@ -332,6 +332,7 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
     <!-- Custom JS -->
     <script src="car-detail.js"></script>
+    <script src="../app.js"></script>
 
     <script>
         // Calculate cost function

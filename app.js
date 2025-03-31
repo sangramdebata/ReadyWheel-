@@ -34,8 +34,12 @@ const showRegister = document.getElementById('show-register');
 const showLogin = document.getElementById('show-login');
 const togglePasswordIcons = document.querySelectorAll('.toggle-password');
 
+console.log('Login button:', loginBtn);
+console.log('Login popup:', loginPopup);
+
 if (loginBtn) {
     loginBtn.addEventListener('click', () => {
+        console.log('Login button clicked');
         loginPopup.style.display = 'flex';
     });
 }
@@ -94,20 +98,29 @@ if (togglePasswordIcons.length > 0) {
 
 // Enhanced login functionality
 document.addEventListener('DOMContentLoaded', function() {
+    console.log('DOM Content Loaded');
     // Check if login form exists and add event listener
     const loginForm = document.querySelector('#log_form');
+    console.log('Login form:', loginForm);
+    
     if (loginForm) {
         loginForm.addEventListener('submit', function(e) {
+            console.log('Form submitted');
             e.preventDefault();
             
             const formData = new FormData(this);
+            console.log('Form data:', Object.fromEntries(formData));
             
             fetch('login.php', {
                 method: 'POST',
                 body: formData
             })
-            .then(response => response.json())
+            .then(response => {
+                console.log('Response received:', response);
+                return response.json();
+            })
             .then(data => {
+                console.log('Data received:', data);
                 if (data.success) {
                     // Store user data in localStorage
                     localStorage.setItem('isLoggedIn', 'true');

@@ -70,7 +70,7 @@ $is_logged_in = isset($_SESSION['is_logged_in']) && $_SESSION['is_logged_in'] ==
             <div class="popup">
                 <span class="close-btn" id="close-login">&times;</span>
                 <h2>Welcome Back</h2>
-                <form action="login.php" method="post" id="log_form">
+                <form method="post" id="log_form">
                     <label for="login-username">Username</label>
                     <input type="text" id="login-username" name="login-username" placeholder="Enter your username" required>
                     
