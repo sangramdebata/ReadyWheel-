@@ -46,6 +46,8 @@ try {
     <link rel="stylesheet" href="styles.css">
     <!-- Car Detail Specific CSS -->
     <link rel="stylesheet" href="car-detail.css">
+    <link rel="icon" type="image/png" href="../assets/logo-white.png">
+    <link rel="shortcut icon" href="favicon.ico">
     <link href="https://cdn.jsdelivr.net/npm/remixicon@4.5.0/fonts/remixicon.css" rel="stylesheet"/>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css"/>
 </head>
