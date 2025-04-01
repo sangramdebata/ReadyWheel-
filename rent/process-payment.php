@@ -31,12 +31,12 @@ try {
     $receipt_number = 'RW' . date('Ymd') . rand(1000, 9999);
     $transaction_id = 'TXN' . time() . rand(1000, 9999);
 
-    // Create booking record with payment details
+    // Create booking record
     $stmt = $conn->prepare("INSERT INTO bookings (
-        user_id, car_id, pickup_date, dropoff_date, pickup_location, 
+        user_id, vehicle_id, start_date, end_date, pickup_location, 
         total_amount, payment_method, payment_gateway, payment_status,
-        transaction_id, reference_number, receipt_number, status
-    ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, 'pending', ?, ?, ?, 'pending')");
+        transaction_id, reference_number, receipt_number, booking_status
+    ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, 'completed', ?, ?, ?, 'confirmed')");
     
     $stmt->bind_param("iisssdsssss", 
         $_SESSION['user_id'], 
@@ -54,44 +54,42 @@ try {
     $stmt->execute();
     $booking_id = $conn->insert_id;
 
-    // Simulate payment processing
-    // In a real implementation, this would integrate with the actual payment gateway
-    $payment_successful = true; // This would be determined by the payment gateway response
+    // Create payment record
+    $stmt = $conn->prepare("INSERT INTO payments (
+        booking_id, user_id, vehicle_id, amount, transaction_id,
+        reference_number, payment_method, payment_gateway,
+        payment_status, payment_date, receipt_number
+    ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, 'completed', NOW(), ?)");
+    
+    $stmt->bind_param("iiidsssss", 
+        $booking_id,
+        $_SESSION['user_id'],
+        $car_id,
+        $total_amount,
+        $transaction_id,
+        $reference_number,
+        $payment_method,
+        $payment_gateway,
+        $receipt_number
+    );
+    $stmt->execute();
 
-    if ($payment_successful) {
-        // Update booking status and payment status
-        $stmt = $conn->prepare("UPDATE bookings SET 
-            status = 'confirmed',
-            payment_status = 'completed'
-            WHERE booking_id = ?");
-        $stmt->bind_param("i", $booking_id);
-        $stmt->execute();
+    // Commit transaction
+    $conn->commit();
 
-        // Commit transaction
-        $conn->commit();
-
-        // Redirect to success page
-        header("Location: payment-status.php?status=completed&booking_id=" . $booking_id);
-    } else {
-        // If payment failed, update status
-        $stmt = $conn->prepare("UPDATE bookings SET 
-            status = 'cancelled',
-            payment_status = 'failed'
-            WHERE booking_id = ?");
-        $stmt->bind_param("i", $booking_id);
-        $stmt->execute();
-
-        // Commit transaction
-        $conn->commit();
-
-        // Redirect to failure page
-        header("Location: payment-status.php?status=failed&booking_id=" . $booking_id);
-    }
+    // Set success message in session
+    $_SESSION['success_message'] = "Payment processed successfully!";
+    
+    // Redirect to success page with booking details
+    header("Location: payment-status.php?status=completed&booking_id=" . $booking_id);
+    exit();
 
 } catch (Exception $e) {
     // If any error occurred, rollback transaction
     $conn->rollback();
+    $_SESSION['error_message'] = "Payment processing failed: " . $e->getMessage();
     header("Location: payment-status.php?status=failed");
+    exit();
 }
 
 $conn->close();
