@@ -48,7 +48,7 @@ $is_logged_in = isset($_SESSION['is_logged_in']) && $_SESSION['is_logged_in'] ==
           <li><a href="About/about.php">About</a></li>
           <li><a href="why-choose-us/choose.php">Why Choose Us</a></li>
           <li><a href="rent/rent.php">Rent</a></li>
-          <li><a href="http://127.0.0.1:5500/login.php?">Register</a></li>
+          <li><a href="login.php">Register</a></li>
         </ul>
         <!-- Login Button -->
         <div class="nav__btns">

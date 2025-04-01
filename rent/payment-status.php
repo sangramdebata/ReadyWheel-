@@ -12,17 +12,23 @@ $payment_status = $_GET['status'] ?? 'failed';
 $booking_id = $_GET['booking_id'] ?? '';
 
 if ($booking_id) {
-    // Fetch booking details from database
-    $stmt = $conn->prepare("SELECT b.*, c.brand, c.model, c.number_plate, u.name as user_name, u.email
+    // Fetch booking and payment details from database
+    $stmt = $conn->prepare("SELECT b.*, p.payment_date, v.car_name, v.brand, v.car_type, u.fullname as user_name, u.email
                            FROM bookings b 
-                           JOIN cars c ON b.car_id = c.car_id
-                           JOIN users u ON b.user_id = u.user_id
+                           JOIN payments p ON b.booking_id = p.booking_id
+                           JOIN vehicles v ON b.vehicle_id = v.id
+                           JOIN users u ON b.user_id = u.id
                            WHERE b.booking_id = ?");
     $stmt->bind_param("i", $booking_id);
     $stmt->execute();
     $result = $stmt->get_result();
     $booking = $result->fetch_assoc();
 }
+
+// Display success/error message if set
+$success_message = $_SESSION['success_message'] ?? '';
+$error_message = $_SESSION['error_message'] ?? '';
+unset($_SESSION['success_message'], $_SESSION['error_message']);
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -34,7 +40,6 @@ if ($booking_id) {
     <link href="https://cdn.jsdelivr.net/npm/remixicon@4.5.0/fonts/remixicon.css" rel="stylesheet"/>
     <link rel="icon" type="image/png" href="../assets/logo-white.png">
     <link rel="shortcut icon" href="favicon.ico">
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
     <style>
         body {
             background-color: #f6f9fc;
@@ -56,10 +61,20 @@ if ($booking_id) {
             position: relative;
             overflow: hidden;
         }
+        .logo-container {
+            margin-bottom: 30px;
+            text-align: center;
+        }
+        .payment-logo {
+            width: 150px;
+            height: auto;
+            margin: 0 auto 10px;
+            animation: scaleIn 0.5s ease-out;
+        }
         .status-icon {
             width: 120px;
             height: 120px;
-            margin: 0 auto 30px;
+            margin: 0 auto 20px;
             border-radius: 60px;
             display: flex;
             align-items: center;
@@ -69,8 +84,8 @@ if ($booking_id) {
             animation: scaleIn 0.5s ease-out;
         }
         .success .status-icon {
-            background: linear-gradient(135deg, #4158d0, #c850c0);
-            box-shadow: 0 8px 25px rgba(65, 88, 208, 0.25);
+            background: linear-gradient(135deg, #00c853, #69f0ae);
+            box-shadow: 0 8px 25px rgba(0, 200, 83, 0.25);
         }
         .failed .status-icon {
             background: linear-gradient(135deg, #ff6b6b, #ff8e8e);
@@ -81,6 +96,7 @@ if ($booking_id) {
             font-weight: 600;
             margin-bottom: 20px;
             animation: fadeInUp 0.5s ease-out 0.2s both;
+            color: #2c3e50;
         }
         .status-details {
             color: #697386;
@@ -88,7 +104,6 @@ if ($booking_id) {
             animation: fadeInUp 0.5s ease-out 0.4s both;
         }
         .receipt {
-            background: #f8f9ff;
             border-radius: 16px;
             padding: 25px;
             margin: 30px 0;
@@ -102,6 +117,14 @@ if ($booking_id) {
             padding-bottom: 15px;
             border-bottom: 2px solid #eaecef;
         }
+        .receipt-header h2 {
+            color: #2c3e50;
+            margin-bottom: 5px;
+        }
+        .receipt-header p {
+            color: #697386;
+            margin: 0;
+        }
         .receipt-row {
             display: flex;
             justify-content: space-between;
@@ -113,6 +136,9 @@ if ($booking_id) {
             margin-bottom: 0;
             padding-bottom: 0;
             border-bottom: none;
+            background: #e8f5e9;
+            padding: 15px;
+            border-radius: 8px;
         }
         .receipt-label {
             color: #697386;
@@ -124,30 +150,22 @@ if ($booking_id) {
             font-weight: 600;
             text-align: right;
         }
-        .btn-download {
-            background: linear-gradient(135deg, #4158d0, #c850c0);
-            border: none;
-            padding: 16px 30px;
-            font-size: 16px;
-            font-weight: 600;
-            border-radius: 12px;
-            color: white;
-            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-            animation: fadeInUp 0.5s ease-out 0.8s both;
+        .confetti {
+            position: fixed;
+            width: 10px;
+            height: 10px;
+            background-color: #4158d0;
+            position: absolute;
+            animation: fall linear forwards;
         }
-        .btn-download:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 8px 25px rgba(65, 88, 208, 0.25);
+        @keyframes fall {
+            to {
+                transform: translateY(100vh);
+            }
         }
         @keyframes scaleIn {
-            from {
-                transform: scale(0);
-                opacity: 0;
-            }
-            to {
-                transform: scale(1);
-                opacity: 1;
-            }
+            from { transform: scale(0); }
+            to { transform: scale(1); }
         }
         @keyframes fadeInUp {
             from {
@@ -159,41 +177,18 @@ if ($booking_id) {
                 transform: translateY(0);
             }
         }
-        .confetti {
-            position: absolute;
-            width: 10px;
-            height: 10px;
-            background-color: #4158d0;
-            animation: confetti 1s ease-out forwards;
-        }
-        @keyframes confetti {
-            0% {
-                transform: translateY(0) rotateZ(0deg);
-                opacity: 1;
-            }
-            100% {
-                transform: translateY(1000%) rotateZ(720deg);
-                opacity: 0;
-            }
-        }
-        @media print {
-            body {
-                background: white;
-            }
-            .status-container {
-                box-shadow: none;
-                padding: 0;
-            }
-            .btn-download {
-                display: none;
-            }
-        }
     </style>
 </head>
 <body>
     <div class="status-container <?php echo $payment_status; ?>">
+        <?php if ($payment_status === 'completed'): ?>
+        <div class="logo-container">
+            <img src="../assets/payment-done.png" alt="Payment Success" class="payment-logo">
+        </div>
+        <?php endif; ?>
+        
         <div class="status-icon">
-            <i class="ri-<?php echo $payment_status === 'completed' ? 'checkbox-circle-line' : 'close-circle-line'; ?>"></i>
+            <i class="ri-<?php echo $payment_status === 'completed' ? 'checkbox-circle-fill' : 'close-circle-fill'; ?>"></i>
         </div>
         
         <h1 class="status-message">
@@ -202,9 +197,9 @@ if ($booking_id) {
         
         <p class="status-details">
             <?php if ($payment_status === 'completed'): ?>
-                Your booking has been confirmed. You can download your receipt below.
+                Payment processed successfully! Your booking has been confirmed.
             <?php else: ?>
-                Something went wrong with your payment. Please try again or contact support.
+                <?php echo $error_message ?: 'Something went wrong with your payment. Please try again or contact support.'; ?>
             <?php endif; ?>
         </p>
 
@@ -213,6 +208,7 @@ if ($booking_id) {
             <div class="receipt-header">
                 <h2>Payment Receipt</h2>
                 <p>Receipt #<?php echo $booking['receipt_number']; ?></p>
+                <p style="margin-top: 5px; font-size: 12px;">Date: <?php echo date('F j, Y, g:i a'); ?></p>
             </div>
 
             <div class="receipt-row">
@@ -221,28 +217,43 @@ if ($booking_id) {
             </div>
 
             <div class="receipt-row">
-                <span class="receipt-label">Payment Date</span>
-                <span class="receipt-value"><?php echo date('F j, Y, g:i a', strtotime($booking['created_at'])); ?></span>
+                <span class="receipt-label">Reference Number</span>
+                <span class="receipt-value"><?php echo $booking['reference_number']; ?></span>
             </div>
 
             <div class="receipt-row">
-                <span class="receipt-label">Car Details</span>
-                <span class="receipt-value"><?php echo $booking['brand'] . ' ' . $booking['model']; ?></span>
+                <span class="receipt-label">Payment Date</span>
+                <span class="receipt-value"><?php echo date('F j, Y, g:i a', strtotime($booking['payment_date'])); ?></span>
+            </div>
+
+            <div class="receipt-row">
+                <span class="receipt-label">Customer Name</span>
+                <span class="receipt-value"><?php echo htmlspecialchars($booking['user_name']); ?></span>
+            </div>
+
+            <div class="receipt-row">
+                <span class="receipt-label">Vehicle Details</span>
+                <span class="receipt-value"><?php echo htmlspecialchars($booking['car_name'] . ' (' . $booking['brand'] . ')'); ?></span>
+            </div>
+
+            <div class="receipt-row">
+                <span class="receipt-label">Vehicle Type</span>
+                <span class="receipt-value"><?php echo htmlspecialchars($booking['car_type']); ?></span>
             </div>
 
             <div class="receipt-row">
                 <span class="receipt-label">Pickup Location</span>
-                <span class="receipt-value"><?php echo $booking['pickup_location']; ?></span>
+                <span class="receipt-value"><?php echo htmlspecialchars($booking['pickup_location']); ?></span>
             </div>
 
             <div class="receipt-row">
                 <span class="receipt-label">Pickup Date</span>
-                <span class="receipt-value"><?php echo date('F j, Y', strtotime($booking['pickup_date'])); ?></span>
+                <span class="receipt-value"><?php echo date('F j, Y', strtotime($booking['start_date'])); ?></span>
             </div>
 
             <div class="receipt-row">
                 <span class="receipt-label">Drop-off Date</span>
-                <span class="receipt-value"><?php echo date('F j, Y', strtotime($booking['dropoff_date'])); ?></span>
+                <span class="receipt-value"><?php echo date('F j, Y', strtotime($booking['end_date'])); ?></span>
             </div>
 
             <div class="receipt-row">
@@ -251,21 +262,22 @@ if ($booking_id) {
             </div>
 
             <div class="receipt-row">
+                <span class="receipt-label">Payment Gateway</span>
+                <span class="receipt-value"><?php echo ucfirst($booking['payment_gateway']); ?></span>
+            </div>
+
+            <div class="receipt-row">
                 <span class="receipt-label">Amount Paid</span>
                 <span class="receipt-value">₹<?php echo number_format($booking['total_amount'], 2); ?></span>
             </div>
         </div>
-
-        <button class="btn btn-download" onclick="downloadReceipt()">
-            <i class="ri-download-line"></i> Download Receipt
-        </button>
         <?php endif; ?>
     </div>
 
     <script>
         // Create confetti effect for successful payment
         function createConfetti() {
-            const colors = ['#4158d0', '#c850c0', '#ffdd40', '#ff6b6b'];
+            const colors = ['#00c853', '#69f0ae', '#ffdd40', '#ff6b6b'];
             for (let i = 0; i < 50; i++) {
                 const confetti = document.createElement('div');
                 confetti.className = 'confetti';
@@ -277,20 +289,6 @@ if ($booking_id) {
                 // Remove confetti after animation
                 setTimeout(() => confetti.remove(), 2000);
             }
-        }
-
-        // Download receipt as PDF
-        function downloadReceipt() {
-            const receipt = document.getElementById('receipt');
-            const opt = {
-                margin: 1,
-                filename: 'ReadyWheel-Receipt-<?php echo $booking['receipt_number']; ?>.pdf',
-                image: { type: 'jpeg', quality: 0.98 },
-                html2canvas: { scale: 2 },
-                jsPDF: { unit: 'in', format: 'letter', orientation: 'portrait' }
-            };
-
-            html2pdf().set(opt).from(receipt).save();
         }
 
         // Show confetti for successful payment
