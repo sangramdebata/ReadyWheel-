@@ -299,9 +299,9 @@
                             <p>"The variety of vehicles and competitive pricing make ReadyWheel my go-to choice for car rentals. Their customer support is outstanding!"</p>
                         </div>
                         <div class="testimonial-author">
-                            <img src="assests/testimonials/user2.jpg" alt="User 2">
+                            <img src="../assets/sipu.jpg" alt="User 2">
                             <div>
-                                <h4>Shreyaa Sahu</h4>
+                                <h4>Sandeep Naik</h4>
                                 <p>Family Vacationer</p>
                             </div>
                         </div>
@@ -315,9 +315,9 @@
                             <p>"I've rented from ReadyWheel multiple times, and they never disappoint. The vehicles are always in perfect condition."</p>
                         </div>
                         <div class="testimonial-author">
-                            <img src="assests/testimonials/user3.jpg" alt="User 3">
+                            <img src="../assets/nitish.jpg" alt="User 3">
                             <div>
-                                <h4>Priyansh Agarwal</h4>
+                                <h4>Nitishraj Swain</h4>
                                 <p>Regular Customer</p>
                             </div>
                         </div>

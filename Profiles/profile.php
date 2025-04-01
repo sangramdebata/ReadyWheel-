@@ -1,3 +1,35 @@
+<?php
+session_start();
+require_once '../config.php';
+
+// Check if user is logged in
+if (!isset($_SESSION['user_id'])) {
+    header('Location: ../login.php');
+    exit();
+}
+
+$is_logged_in = true; // Since we're on the profile page, user must be logged in
+
+// Fetch user data
+$user_id = $_SESSION['user_id'];
+$sql = "SELECT * FROM users WHERE id = ?";
+$stmt = $conn->prepare($sql);
+$stmt->bind_param("i", $user_id);
+$stmt->execute();
+$result = $stmt->get_result();
+$user = $result->fetch_assoc();
+
+// If user data not found, set default values
+if (!$user) {
+    $user = [
+        'name' => '',
+        'email' => '',
+        'mobile' => '',
+        'address' => '',
+        'created_at' => date('F Y')
+    ];
+}
+?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -59,9 +91,9 @@
                 <div class="col-lg-4">
                     <div class="card mb-4">
                         <div class="card-body text-center">
-                            <img src="assets/profile-placeholder.jpg" alt="Profile Picture" class="rounded-circle img-fluid" style="width: 150px;">
-                            <h5 class="my-3" id="user-name">Chaitanya Behera</h5>
-                            <p class="text-muted mb-1">Member since: <span id="member-since">March 2025</span></p>
+                            <img src="../assets/profile-placeholder.jpg" alt="Profile Picture" class="rounded-circle img-fluid" style="width: 150px;">
+                            <h5 class="my-3" id="user-name"><?php echo htmlspecialchars($user['fullname']); ?></h5>
+                            <p class="text-muted mb-1">Member since: <span id="member-since"><?php echo date('F Y', strtotime($user['created_at'])); ?></span></p>
                             <div class="d-flex justify-content-center mb-2">
                                 <button type="button" class="btn btn-primary">Edit Profile</button>
                             </div>
@@ -77,7 +109,7 @@
                                     <p class="mb-0">Full Name</p>
                                 </div>
                                 <div class="col-sm-9">
-                                    <p class="text-muted mb-0" id="full-name">Chaitanya Behera</p>
+                                    <p class="text-muted mb-0" id="full-name"><?php echo htmlspecialchars($user['fullname']); ?></p>
                                 </div>
                             </div>
                             <hr>
@@ -86,7 +118,7 @@
                                     <p class="mb-0">Email</p>
                                 </div>
                                 <div class="col-sm-9">
-                                    <p class="text-muted mb-0" id="email">chaitanya@gmail.com</p>
+                                    <p class="text-muted mb-0" id="email"><?php echo htmlspecialchars($user['email']); ?></p>
                                 </div>
                             </div>
                             <hr>
@@ -95,7 +127,7 @@
                                     <p class="mb-0">Phone</p>
                                 </div>
                                 <div class="col-sm-9">
-                                    <p class="text-muted mb-0" id="phone">(+91) 9998887775</p>
+                                    <p class="text-muted mb-0" id="phone"><?php echo htmlspecialchars($user['mobile'] ?? ''); ?></p>
                                 </div>
                             </div>
                             <hr>
@@ -104,7 +136,7 @@
                                     <p class="mb-0">Address</p>
                                 </div>
                                 <div class="col-sm-9">
-                                    <p class="text-muted mb-0" id="address">123 Main Street, Angul, Odisha, India</p>
+                                    <p class="text-muted mb-0" id="address"><?php echo htmlspecialchars($user['address'] ?? ''); ?></p>
                                 </div>
                             </div>
                         </div>
