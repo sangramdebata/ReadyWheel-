@@ -2,29 +2,50 @@
 session_start();
 require_once '../config.php';
 
+// Enable error reporting
+error_reporting(E_ALL);
+ini_set('display_errors', 1);
+
 // Check if user is logged in
 if (!isset($_SESSION['user_id'])) {
     header('Location: ../login.php');
     exit();
 }
 
-// Enable error reporting for debugging
-error_reporting(E_ALL);
-ini_set('display_errors', 1);
+// Debug: Print user ID
+error_log("User ID: " . $_SESSION['user_id']);
 
 // Fetch all cars with owner information
 $sql = "SELECT v.*, u.fullname as owner_name, u.mobile as owner_mobile, u.email as owner_email,
         (SELECT photo_path FROM vehicle_photos WHERE vehicle_id = v.id LIMIT 1) as photo_path
         FROM vehicles v 
         JOIN users u ON v.owner_id = u.id 
+        WHERE v.owner_id = ?
         ORDER BY v.created_at DESC";
 
-$result = $conn->query($sql);
-$cars = $result->fetch_all(MYSQLI_ASSOC);
-
-// Debug information
-if (empty($cars)) {
-    error_log("No cars found in the system");
+try {
+    $stmt = $conn->prepare($sql);
+    if (!$stmt) {
+        throw new Exception("Prepare failed: " . $conn->error);
+    }
+    
+    $stmt->bind_param("i", $_SESSION['user_id']);
+    if (!$stmt->execute()) {
+        throw new Exception("Execute failed: " . $stmt->error);
+    }
+    
+    $result = $stmt->get_result();
+    $cars = $result->fetch_all(MYSQLI_ASSOC);
+    
+    // Debug: Print number of cars found
+    error_log("Number of cars found: " . count($cars));
+    
+    if (empty($cars)) {
+        error_log("No cars found for user ID: " . $_SESSION['user_id']);
+    }
+} catch (Exception $e) {
+    error_log("Error in my_listed_cars.php: " . $e->getMessage());
+    $cars = [];
 }
 ?>
 

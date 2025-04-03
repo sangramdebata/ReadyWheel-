@@ -58,7 +58,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
     $stmt = $conn->prepare($sql);
     $stmt->bind_param(
-        "issssssiisds",
+        "issssssisiss",
         $owner_id, $car_name, $brand, $year, $car_type, $fuel_type,
         $specifications, $seating_capacity, $transmission, $price_per_day,
         $location, $is_available
