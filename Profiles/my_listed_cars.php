@@ -12,16 +12,59 @@ if (!isset($_SESSION['user_id'])) {
     exit();
 }
 
-// Debug: Print user ID
-error_log("User ID: " . $_SESSION['user_id']);
+// Get filter parameters
+$availability = isset($_GET['availability']) ? $_GET['availability'] : '';
+$transmission = isset($_GET['transmission']) ? $_GET['transmission'] : '';
+$fuel_type = isset($_GET['fuel_type']) ? $_GET['fuel_type'] : '';
+$price_range = isset($_GET['price_range']) ? $_GET['price_range'] : '';
 
-// Fetch all cars with owner information
+// Build the base SQL query
 $sql = "SELECT v.*, u.fullname as owner_name, u.mobile as owner_mobile, u.email as owner_email,
         (SELECT photo_path FROM vehicle_photos WHERE vehicle_id = v.id LIMIT 1) as photo_path
         FROM vehicles v 
         JOIN users u ON v.owner_id = u.id 
-        WHERE v.owner_id = ?
-        ORDER BY v.created_at DESC";
+        WHERE v.owner_id = ?";
+
+// Add filter conditions
+$params = [$_SESSION['user_id']];
+$types = "i";
+
+if ($availability !== '') {
+    $sql .= " AND v.is_available = ?";
+    $params[] = ($availability === 'available' ? 1 : 0);
+    $types .= "i";
+}
+
+if ($transmission !== '') {
+    $sql .= " AND v.transmission = ?";
+    $params[] = $transmission;
+    $types .= "s";
+}
+
+if ($fuel_type !== '') {
+    $sql .= " AND v.fuel_type = ?";
+    $params[] = $fuel_type;
+    $types .= "s";
+}
+
+if ($price_range !== '') {
+    switch ($price_range) {
+        case '0-1000':
+            $sql .= " AND v.price_per_day <= 1000";
+            break;
+        case '1000-2000':
+            $sql .= " AND v.price_per_day BETWEEN 1000 AND 2000";
+            break;
+        case '2000-5000':
+            $sql .= " AND v.price_per_day BETWEEN 2000 AND 5000";
+            break;
+        case '5000+':
+            $sql .= " AND v.price_per_day > 5000";
+            break;
+    }
+}
+
+$sql .= " ORDER BY v.created_at DESC";
 
 try {
     $stmt = $conn->prepare($sql);
@@ -29,7 +72,12 @@ try {
         throw new Exception("Prepare failed: " . $conn->error);
     }
     
-    $stmt->bind_param("i", $_SESSION['user_id']);
+    if (count($params) > 1) {
+        $stmt->bind_param($types, ...$params);
+    } else {
+        $stmt->bind_param("i", $_SESSION['user_id']);
+    }
+    
     if (!$stmt->execute()) {
         throw new Exception("Execute failed: " . $stmt->error);
     }
@@ -37,15 +85,29 @@ try {
     $result = $stmt->get_result();
     $cars = $result->fetch_all(MYSQLI_ASSOC);
     
-    // Debug: Print number of cars found
-    error_log("Number of cars found: " . count($cars));
+    // Get unique values for filters
+    $filter_sql = "SELECT DISTINCT transmission, fuel_type FROM vehicles WHERE owner_id = ?";
+    $filter_stmt = $conn->prepare($filter_sql);
+    $filter_stmt->bind_param("i", $_SESSION['user_id']);
+    $filter_stmt->execute();
+    $filter_result = $filter_stmt->get_result();
+    $transmissions = [];
+    $fuel_types = [];
     
-    if (empty($cars)) {
-        error_log("No cars found for user ID: " . $_SESSION['user_id']);
+    while ($row = $filter_result->fetch_assoc()) {
+        if (!in_array($row['transmission'], $transmissions)) {
+            $transmissions[] = $row['transmission'];
+        }
+        if (!in_array($row['fuel_type'], $fuel_types)) {
+            $fuel_types[] = $row['fuel_type'];
+        }
     }
+    
 } catch (Exception $e) {
     error_log("Error in my_listed_cars.php: " . $e->getMessage());
     $cars = [];
+    $transmissions = [];
+    $fuel_types = [];
 }
 ?>
 
@@ -129,6 +191,31 @@ try {
         a.text-decoration-none:hover {
             text-decoration: none;
         }
+        .filter-section {
+            background: #f8f9fa;
+            padding: 20px;
+            border-radius: 10px;
+            margin-bottom: 30px;
+        }
+        .filter-form {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+            align-items: end;
+        }
+        .filter-group {
+            margin-bottom: 0;
+        }
+        .filter-group label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: 500;
+        }
+        .filter-actions {
+            display: flex;
+            gap: 10px;
+            align-items: center;
+        }
     </style>
 </head>
 <body>
@@ -174,9 +261,65 @@ try {
             </a>
         </div>
 
+        <!-- Filter Section -->
+        <div class="filter-section">
+            <form method="GET" class="filter-form">
+                <div class="filter-group">
+                    <label for="availability">Availability</label>
+                    <select class="form-select" id="availability" name="availability">
+                        <option value="">All</option>
+                        <option value="available" <?php echo $availability === 'available' ? 'selected' : ''; ?>>Available</option>
+                        <option value="unavailable" <?php echo $availability === 'unavailable' ? 'selected' : ''; ?>>Unavailable</option>
+                    </select>
+                </div>
+                
+                <div class="filter-group">
+                    <label for="transmission">Transmission</label>
+                    <select class="form-select" id="transmission" name="transmission">
+                        <option value="">All</option>
+                        <?php foreach ($transmissions as $trans): ?>
+                            <option value="<?php echo htmlspecialchars($trans); ?>" 
+                                    <?php echo $transmission === $trans ? 'selected' : ''; ?>>
+                                <?php echo htmlspecialchars($trans); ?>
+                            </option>
+                        <?php endforeach; ?>
+                    </select>
+                </div>
+                
+                <div class="filter-group">
+                    <label for="fuel_type">Fuel Type</label>
+                    <select class="form-select" id="fuel_type" name="fuel_type">
+                        <option value="">All</option>
+                        <?php foreach ($fuel_types as $fuel): ?>
+                            <option value="<?php echo htmlspecialchars($fuel); ?>" 
+                                    <?php echo $fuel_type === $fuel ? 'selected' : ''; ?>>
+                                <?php echo htmlspecialchars($fuel); ?>
+                            </option>
+                        <?php endforeach; ?>
+                    </select>
+                </div>
+                
+                <div class="filter-group">
+                    <label for="price_range">Price Range (₹/day)</label>
+                    <select class="form-select" id="price_range" name="price_range">
+                        <option value="">All</option>
+                        <option value="0-1000" <?php echo $price_range === '0-1000' ? 'selected' : ''; ?>>Under ₹1,000</option>
+                        <option value="1000-2000" <?php echo $price_range === '1000-2000' ? 'selected' : ''; ?>>₹1,000 - ₹2,000</option>
+                        <option value="2000-5000" <?php echo $price_range === '2000-5000' ? 'selected' : ''; ?>>₹2,000 - ₹5,000</option>
+                        <option value="5000+" <?php echo $price_range === '5000+' ? 'selected' : ''; ?>>Over ₹5,000</option>
+                    </select>
+                </div>
+                
+                <div class="filter-actions">
+                    <button type="submit" class="btn btn-primary">Apply Filters</button>
+                    <a href="my_listed_cars.php" class="btn btn-secondary">Reset</a>
+                </div>
+            </form>
+        </div>
+
         <?php if (empty($cars)): ?>
             <div class="alert alert-info">
-                You haven't listed any cars yet. <a href="owner.php">List your first car</a>
+                No cars found matching your criteria. <a href="owner.php">List a new car</a>
             </div>
         <?php else: ?>
             <div class="row g-4">
