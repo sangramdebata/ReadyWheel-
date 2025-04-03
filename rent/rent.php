@@ -232,6 +232,13 @@ try {
                 <div class="row car-grid" id="car-grid">
                     <!-- Vehicle cards will be dynamically inserted here -->
                 </div>
+
+                <!-- Show More Cars Button -->
+                <div class="text-center mt-4">
+                    <a href="../Profiles/my_listed_cars.php" class="btn btn-primary">
+                        <i class="fas fa-car me-2"></i>Show more cars
+                    </a>
+                </div>
             </div>
         </div>
     </div>
