@@ -12,7 +12,8 @@ $car_id = $_GET['id'];
 
 // Fetch car details
 $sql = "SELECT v.*, u.fullname as owner_name, u.mobile as owner_mobile, u.email as owner_email, 
-        v.transmission, v.location, v.fuel_type, v.seating_capacity, v.year, v.price_per_day, v.is_available
+        v.transmission, v.location, v.fuel_type, v.seating_capacity, v.year, v.price_per_day, v.is_available,
+        v.specifications
         FROM vehicles v 
         JOIN users u ON v.owner_id = u.id 
         WHERE v.id = ?";
@@ -181,6 +182,12 @@ $photos = $photos_result->fetch_all(MYSQLI_ASSOC);
                             </div>
                         </div>
                     </div>
+                    <?php if (!empty($car['specifications'])): ?>
+                    <div class="mt-4">
+                        <h4>Detailed Specifications</h4>
+                        <p class="specifications-text"><?php echo nl2br(htmlspecialchars($car['specifications'])); ?></p>
+                    </div>
+                    <?php endif; ?>
                 </div>
 
                 <div class="owner-info">
